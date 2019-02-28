@@ -45,15 +45,36 @@ package main
 func matchSuffix(input string, wordDictAsDict map[string]bool) []string {
 	result := []string{}
 	for i := len(input); i >= 0; i-- {
-		item, ok := wordDictAsDict[input[i:]]
+		_, ok := wordDictAsDict[input[i:]]
 		if ok {
-			result = append(result)
+			result = append(result, input[i:])
 		}
 	}
+	return result
 }
+
 func wordBreak(s string, wordDict []string) []string {
+	var solution func(x string) []string
+
+	// prep wordDict for faster access
 	wordDictAsDict := map[string]bool{}
 	for _, word := range wordDict {
 		wordDictAsDict[word] = true
 	}
+
+	solution = func(x string) []string {
+		result := []string{}
+		for _, suffix := range matchSuffix(x, wordDictAsDict) {
+			if (len(x) - len(suffix)) == 0 {
+				return matchSuffix(x, wordDictAsDict)
+			}
+			for _, sub_solution := range solution(x[:len(x)-len(suffix)]) {
+				if len(sub_solution) > 0 {
+					result = append(result, sub_solution+" "+suffix)
+				}
+			}
+		}
+		return result
+	}
+	return solution(s)
 }
