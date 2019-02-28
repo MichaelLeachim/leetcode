@@ -61,8 +61,14 @@ func wordBreak(s string, wordDict []string) []string {
 	for _, word := range wordDict {
 		wordDictAsDict[word] = true
 	}
+	solutions := map[string][]string{}
 
 	solution = func(x string) []string {
+		res, ok := solutions[x]
+		if ok {
+			return res
+		}
+
 		result := []string{}
 		for _, suffix := range matchSuffix(x, wordDictAsDict) {
 			if (len(x) - len(suffix)) == 0 {
