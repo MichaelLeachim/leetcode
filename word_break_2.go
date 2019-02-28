@@ -30,6 +30,14 @@ package main
 
 // Let's define match function: match(suffix) => wordDict[suffix] or Nothing
 // Let's recursively define solution function:
-// solution(x) =   [each + " " + suffix for each in solution([len(x):-len(suffix)])]  when len(x)-len(suffix) > 0 and match(suffix)
-//                 [suffix]                                                                len(x)-len(suffix) = 0 and match(suffix)
+// solution(x) =   [each + " " + suffix for each in solution(x[len(x)-len(suffix):])]  when len(x)-len(suffix) > 0 and match(suffix)
+//                 [suffix]                                                                 len(x)-len(suffix) = 0 and match(suffix)
 //                 []
+
+// Let's define matchSuffix function: matchSuffix(input) will return all suffixes for a given input that match dictionary.
+// For example, matchSuffix(sand)  => [and, sand]
+//              matchSuffix(sando) => []
+
+// Let's recursively define solution function
+// solution(x) = [sub_solution+ " " + suffix for sub_solution in solution(x without suffix) when sub_solution is not empty]  for every suffix in matchSufix(x)  if len(x) - len(suffix) > 0
+//               [suffix for every suffix in matchSufix(x)]                                                                                                     if len(x) - len(suffix) = 0
