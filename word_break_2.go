@@ -92,5 +92,6 @@ func wordBreak(s string, wordDict []string) []string {
 		solutions[x] = result
 		return result
 	}
+
 	return solution(s)
 }
