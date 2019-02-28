@@ -8,6 +8,7 @@ package main
 
 import (
 	"github.com/stretchr/testify/assert"
+	"strings"
 	"testing"
 )
 
@@ -46,6 +47,8 @@ func TestWordBreak2(t *testing.T) {
 	}, wordBreak(s, wordDict))
 	// debugging
 	// solution(pineapple) = [pine apple, pineapple]
+	//   suffixes: pineapple, apple
+	//
 	// solution(pine) = [pine]
 	s = "pineapple"
 	assert.Equal(t, []string{"pine apple", "pineapple"}, wordBreak(s, wordDict))
@@ -54,5 +57,17 @@ func TestWordBreak2(t *testing.T) {
 	s = "catsandog"
 	wordDict = []string{"cats", "dog", "sand", "and", "cat"}
 	assert.Equal(t, []string{}, wordBreak(s, wordDict))
+}
+
+func BenchmarkWordBreak2(t *testing.B) {
+	wordDict := []string{"apple", "pen", "applepen", "pine", "pineapple"}
+	result := []string{}
+	for i := 0; i <= 10; i++ {
+		result = append(result, wordDict[i%len(wordDict)])
+	}
+	largerDataSet := strings.Join(result, "")
+	for n := 0; n < t.N; n++ {
+		wordBreak(largerDataSet, wordDict)
+	}
 
 }
