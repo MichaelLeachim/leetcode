@@ -7,6 +7,8 @@
 
 package main
 
+import ()
+
 // Working on this problem:
 // https://leetcode.com/problems/word-break-ii/
 
@@ -54,34 +56,45 @@ func matchSuffix(input string, wordDictAsDict map[string]bool) []string {
 }
 
 func wordBreak(s string, wordDict []string) []string {
-	var solution func(x string) []string
+	var solution func(x string) [][]string
 
 	// prep wordDict for faster access
 	wordDictAsDict := map[string]bool{}
 	for _, word := range wordDict {
 		wordDictAsDict[word] = true
 	}
-	solutions := map[string][]string{}
+	solutions := map[string][][]string{}
 
-	solution = func(x string) []string {
+	solution = func(x string) [][]string {
 		res, ok := solutions[x]
 		if ok {
 			return res
 		}
 
-		result := []string{}
+		result := [][]string{}
 		for _, suffix := range matchSuffix(x, wordDictAsDict) {
 			if (len(x) - len(suffix)) == 0 {
-				result = append(result, suffix)
+				result = append(result, []string{suffix})
 			}
 			for _, sub_solution := range solution(x[:len(x)-len(suffix)]) {
 				if len(sub_solution) > 0 {
-					result = append(result, sub_solution+" "+suffix)
+					result = append(result, append(sub_solution, suffix))
 				}
 			}
 		}
 		solutions[x] = result
 		return result
 	}
-	return solution(s)
+	resultSlices := solution(s)
+	resultStrings := []string{}
+	for _, item := range resultSlices {
+		row := []byte{}
+		for _, subItem := range item {
+			row = append(row, []byte(subItem)...)
+			row = append(row, ' ')
+		}
+
+		resultStrings = append(resultStrings, string(row[:len(row)-1]))
+	}
+	return resultStrings
 }
