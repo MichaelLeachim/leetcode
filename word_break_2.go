@@ -42,7 +42,7 @@ import ()
 
 // Let's recursively define solution function
 // solution(x) = [sub_solution+ " " + suffix for sub_solution in solution(x without suffix) when sub_solution is not empty]  for every suffix in matchSufix(x)  if len(x) - len(suffix) > 0
-//               matchSufix(x)                                                                                                                                  if len(x) - len(suffix) = 0
+//               suffix                                                                                                                                         if len(x) - len(suffix) = 0
 
 func matchSuffix(input string, wordDictAsDict map[string]bool) []string {
 	result := []string{}
@@ -75,6 +75,9 @@ func wordBreak(s string, wordDict []string) []string {
 		for _, suffix := range matchSuffix(x, wordDictAsDict) {
 			if (len(x) - len(suffix)) == 0 {
 				result = append(result, []string{suffix})
+			}
+			if len(x)-len(suffix) < 0 {
+				panic("This should not happen")
 			}
 			for _, sub_solution := range solution(x[:len(x)-len(suffix)]) {
 				if len(sub_solution) > 0 {

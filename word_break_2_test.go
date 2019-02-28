@@ -24,6 +24,17 @@ func TestMatchSuffix(t *testing.T) {
 	assert.Equal(t, matchSuffix("pine", map[string]bool{"pine": true}), []string{"pine"})
 }
 
+func TestWordBreak2FailingTestCase(t *testing.T) {
+	input := []string{"a a a a a a a", "aa a a a a a", "a aa a a a a", "a a aa a a a", "aa aa a a a", "aaaa a a a", "a a a aa a a", "aa a aa a a", "a aa aa a a", "a aaaa a a", "a a a a aa a", "aa a a aa a", "a aa a aa a", "a a aa aa a", "aa aa aa a", "aaaa aa a", "a a aaaa a", "aa aaaa a", "a a a a a aa", "aa a a a aa", "a aa a a aa", "a a aa a aa", "aa aa a aa", "aaaa a aa", "a a a aa aa", "aa a aa aa", "a aa aa aa", "a aaaa aa", "a a a aaaa", "aa a aaaa", "a aa aaaa"}
+
+	assert.Equal(t, slice2set(input), slice2set(wordBreak("aaaaaaa", []string{"aaaa", "aa", "a"})))
+	assert.Equal(t, true, slice2set(wordBreak("aaaaaaa", []string{"aaaa", "aa", "a"}))["a a a a a a a"])
+	// s = "aaaaaaa"
+	// wordDict = ["aaaa","aa","a"]
+	//
+
+}
+
 func TestWordBreak2(t *testing.T) {
 
 	// first example
