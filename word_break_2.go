@@ -42,6 +42,18 @@ package main
 // solution(x) = [sub_solution+ " " + suffix for sub_solution in solution(x without suffix) when sub_solution is not empty]  for every suffix in matchSufix(x)  if len(x) - len(suffix) > 0
 //               matchSufix(x)                                                                                                                                  if len(x) - len(suffix) = 0
 
+func matchSuffix(input string, wordDictAsDict map[string]bool) []string {
+	result := []string{}
+	for i := len(input); i >= 0; i-- {
+		item, ok := wordDictAsDict[input[i:]]
+		if ok {
+			result = append(result)
+		}
+	}
+}
 func wordBreak(s string, wordDict []string) []string {
-
+	wordDictAsDict := map[string]bool{}
+	for _, word := range wordDict {
+		wordDictAsDict[word] = true
+	}
 }
