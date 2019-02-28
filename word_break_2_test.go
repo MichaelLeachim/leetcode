@@ -20,6 +20,7 @@ func TestMatchSuffix(t *testing.T) {
 	assert.Equal(t, matchSuffix("catsand", wordDict), []string{"and", "sand"})
 	assert.Equal(t, matchSuffix("catsando", wordDict), []string{})
 	assert.Equal(t, matchSuffix("", wordDict), []string{})
+	assert.Equal(t, matchSuffix("pine", map[string]bool{"pine": true}), []string{"pine"})
 }
 
 func TestWordBreak2(t *testing.T) {
@@ -31,6 +32,9 @@ func TestWordBreak2(t *testing.T) {
 		"cats and dog",
 		"cat sand dog",
 	})
+	// debugging
+	assert.Equal(t, wordBreak("catsanddo", wordDict), []string{})
+	assert.Equal(t, wordBreak("catsandog", wordDict), []string{})
 
 	// second example
 	s = "pineapplepenapple"
@@ -40,10 +44,15 @@ func TestWordBreak2(t *testing.T) {
 		"pineapple pen apple",
 		"pine applepen apple",
 	}, wordBreak(s, wordDict))
+	// debugging
+	// solution(pineapple) = [pine apple, pineapple]
+	// solution(pine) = [pine]
+	s = "pineapple"
+	assert.Equal(t, []string{"pine apple", "pineapple"}, wordBreak(s, wordDict))
 
 	// third example
 	s = "catsandog"
 	wordDict = []string{"cats", "dog", "sand", "and", "cat"}
-	assert.Equal(t, wordDict, []string{})
+	assert.Equal(t, []string{}, wordBreak(s, wordDict))
 
 }
