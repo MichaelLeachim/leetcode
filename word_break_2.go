@@ -40,4 +40,8 @@ package main
 
 // Let's recursively define solution function
 // solution(x) = [sub_solution+ " " + suffix for sub_solution in solution(x without suffix) when sub_solution is not empty]  for every suffix in matchSufix(x)  if len(x) - len(suffix) > 0
-//               [suffix for every suffix in matchSufix(x)]                                                                                                     if len(x) - len(suffix) = 0
+//               matchSufix(x)                                                                                                                                  if len(x) - len(suffix) = 0
+
+func wordBreak(s string, wordDict []string) []string {
+
+}
