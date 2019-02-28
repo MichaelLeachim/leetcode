@@ -11,6 +11,12 @@ import (
 	"testing"
 )
 
+func TestMatchSuffix(t *testing.T) {
+	wordDict := map[string]bool{"cat": true, "cats": true, "and": true, "sand": true, "dog": true}
+	assert.Equal(t, matchSuffix("catsand", wordDict), []string{"and", "sand"})
+	assert.Equal(t, matchSuffix("catsando", wordDict), []string{})
+	assert.Equal(t, matchSuffix("", wordDict), []string{})
+}
 func TestWordBreak2(t *testing.T) {
 
 	// first example
