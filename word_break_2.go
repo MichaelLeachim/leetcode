@@ -40,9 +40,15 @@ import ()
 // For example, matchSuffix(sand)  => [and, sand]
 //              matchSuffix(sando) => []
 
+// solution(a)   => [a]
+// solution(aa)  => [a a,aa]
+// solution(aaaa)  => [a,aa,aaaa]
+
+// solution(aaa) => [solution(aa) + a, solution(a) + aa]
+// suffixOf(aaaa) => [a,aa,aaaa]
+
 // Let's recursively define solution function
-// solution(x) = [sub_solution+ " " + suffix for sub_solution in solution(x without suffix) when sub_solution is not empty]  for every suffix in matchSufix(x)  if len(x) - len(suffix) > 0
-//               suffix                                                                                                                                         if len(x) - len(suffix) = 0
+// solution(x) = solution(x without suffix) + suffix  for every suffix in matchSufix(x)
 
 func matchSuffix(input string, wordDictAsDict map[string]bool) []string {
 	result := []string{}
@@ -56,48 +62,35 @@ func matchSuffix(input string, wordDictAsDict map[string]bool) []string {
 }
 
 func wordBreak(s string, wordDict []string) []string {
-	var solution func(x string) [][]string
+	var solution func(x string) []string
 
 	// prep wordDict for faster access
 	wordDictAsDict := map[string]bool{}
 	for _, word := range wordDict {
 		wordDictAsDict[word] = true
 	}
-	solutions := map[string][][]string{}
+	solutions := map[string][]string{}
 
-	solution = func(x string) [][]string {
+	solution = func(x string) []string {
 		res, ok := solutions[x]
 		if ok {
 			return res
 		}
 
-		result := [][]string{}
+		result := []string{}
 		for _, suffix := range matchSuffix(x, wordDictAsDict) {
-			if (len(x) - len(suffix)) == 0 {
-				result = append(result, []string{suffix})
-			}
-			if len(x)-len(suffix) < 0 {
-				panic("This should not happen")
+			// add result without solution
+			if len(x)-len(suffix) == 0 {
+				result = append(result, suffix)
+				continue
 			}
 			for _, sub_solution := range solution(x[:len(x)-len(suffix)]) {
-				if len(sub_solution) > 0 {
-					result = append(result, append(sub_solution, suffix))
-				}
+				result = append(result, sub_solution+" "+suffix)
 			}
+
 		}
 		solutions[x] = result
 		return result
 	}
-	resultSlices := solution(s)
-	resultStrings := []string{}
-	for _, item := range resultSlices {
-		row := []byte{}
-		for _, subItem := range item {
-			row = append(row, []byte(subItem)...)
-			row = append(row, ' ')
-		}
-
-		resultStrings = append(resultStrings, string(row[:len(row)-1]))
-	}
-	return resultStrings
+	return solution(s)
 }

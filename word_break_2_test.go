@@ -22,16 +22,39 @@ func TestMatchSuffix(t *testing.T) {
 	assert.Equal(t, matchSuffix("catsando", wordDict), []string{})
 	assert.Equal(t, matchSuffix("", wordDict), []string{})
 	assert.Equal(t, matchSuffix("pine", map[string]bool{"pine": true}), []string{"pine"})
+	assert.Equal(t, matchSuffix("aaaaaaaa", slice2set([]string{"aaaa", "aa", "a"})), []string{"a", "aa", "aaaa"})
+	assert.Equal(t, matchSuffix("a", slice2set([]string{"aaaa", "aa", "a"})), []string{"a"})
+	assert.Equal(t, matchSuffix("aa", slice2set([]string{"aaaa", "aa", "a"})), []string{"a", "aa"})
 }
 
+func CommentedOutTestWantToLearnHowGoDiffWorks(t *testing.T) {
+	expected := map[string]bool{"H": true, "E": true, "L": true, "O": true}
+	actual := map[string]bool{"L": true, "W": true, "O": true, "R": true, "D": true}
+	assert.Equal(t, expected, actual)
+
+}
 func TestWordBreak2FailingTestCase(t *testing.T) {
+
+	wordDict := []string{"aaaa", "aa", "a"}
+
 	input := []string{"a a a a a a a", "aa a a a a a", "a aa a a a a", "a a aa a a a", "aa aa a a a", "aaaa a a a", "a a a aa a a", "aa a aa a a", "a aa aa a a", "a aaaa a a", "a a a a aa a", "aa a a aa a", "a aa a aa a", "a a aa aa a", "aa aa aa a", "aaaa aa a", "a a aaaa a", "aa aaaa a", "a a a a a aa", "aa a a a aa", "a aa a a aa", "a a aa a aa", "aa aa a aa", "aaaa a aa", "a a a aa aa", "aa a aa aa", "a aa aa aa", "a aaaa aa", "a a a aaaa", "aa a aaaa", "a aa aaaa"}
 
-	assert.Equal(t, slice2set(input), slice2set(wordBreak("aaaaaaa", []string{"aaaa", "aa", "a"})))
-	assert.Equal(t, true, slice2set(wordBreak("aaaaaaa", []string{"aaaa", "aa", "a"}))["a a a a a a a"])
+	assert.Equal(t, slice2set(input), slice2set(wordBreak("aaaaaaa", wordDict)))
+	assert.Equal(t, len(input), len(wordBreak("aaaaaaa", wordDict)))
+	// assert.Equal(t, true, slice2set(wordBreak("aaaaaaa", wordDict))["a a a a a a a"])
 	// s = "aaaaaaa"
 	// wordDict = ["aaaa","aa","a"]
-	//
+	// solution(a) = [a]
+	// solution(aa) = [a a,aa]
+	assert.Equal(t, []string{"a"}, wordBreak("a", wordDict))
+	assert.Equal(t, []string{"a a", "aa"}, wordBreak("aa", wordDict))
+
+	assert.Equal(t, wordBreak("bbbb", []string{"b"}), []string{"b b b b"})
+	assert.Equal(t, wordBreak("bbbbb", []string{"b"}), []string{"b b b b b"})
+	assert.Equal(t, wordBreak("bbbbbbbbbbbb", []string{"b"}), []string{"b b b b b b b b b b b b"})
+	assert.Equal(t, wordBreak("aaaaaaaa", []string{"a"}), []string{"a a a a a a a a"})
+	assert.Equal(t, wordBreak("aaaaaaaa", []string{"aa"}), []string{"aa aa aa aa"})
+	assert.Equal(t, wordBreak("aaaaaaa", []string{"aa"}), []string{})
 
 }
 
