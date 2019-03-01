@@ -61,6 +61,54 @@ func TestGetDistanceByBFS(t *testing.T) {
 	assert.Equal(t, ok, false)
 }
 
+func TestCutOffTree(t *testing.T) {
+	// first test case
+	assert.Equal(t, 6,
+		cutOffTree([][]int{
+			[]int{1, 2, 3},
+			[]int{0, 0, 4},
+			[]int{7, 6, 5}}))
+
+	// second test case
+	assert.Equal(t, -1, cutOffTree([][]int{
+		[]int{1, 2, 3},
+		[]int{0, 0, 0},
+		[]int{7, 6, 5},
+	}))
+
+	// third test case
+	assert.Equal(t, 6, cutOffTree(
+		[][]int{
+			[]int{2, 3, 4},
+			[]int{0, 0, 5},
+			[]int{8, 7, 6},
+		}))
+
+	// edge cases
+	assert.Equal(t, -1, cutOffTree([][]int{}))
+	assert.Equal(t, -1, cutOffTree(
+		[][]int{
+			[]int{0, 0, 0},
+			[]int{0, 0, 0},
+			[]int{0, 0, 0},
+		}))
+
+	assert.Equal(t, -1, cutOffTree(
+		[][]int{
+			[]int{0, 1, 2},
+			[]int{3, 4, 5},
+			[]int{6, 7, 8},
+		}))
+
+	assert.Equal(t, -1, cutOffTree(
+		[][]int{
+			[]int{1, 0, 2},
+			[]int{0, 0, 5},
+			[]int{6, 7, 8},
+		}))
+
+}
+
 func TestAdjacencyMatrix(t *testing.T) {
 
 	assert.Equal(t, adjacencyMatrix([][]int{

@@ -134,9 +134,8 @@ func cutOffTree(forest [][]int) int {
 	if canSlice(len(forest), 0) && canSlice(len(forest[0]), 0) {
 		startingPoint = forest[0][0]
 	}
-
 	if startingPoint == -1 {
-		panic("It should not be possible")
+		return -1
 	}
 
 	// calculate adjacency matrix
@@ -148,12 +147,15 @@ func cutOffTree(forest [][]int) int {
 		order = append(order, node)
 	}
 	sort.Ints(order)
+	if len(order) == 0 {
+		return -1
+	}
 
 	distance, ok := getDistanceByBFS(startingPoint, order[0], adjMatrix)
 	if !ok {
 		return -1
 	}
-	for i := 1; i <= len(order); i++ {
+	for i := 1; i < len(order); i++ {
 		pointA, pointB := order[i-1], order[i]
 		pabDistance, ok := getDistanceByBFS(pointA, pointB, adjMatrix)
 		if !ok {
