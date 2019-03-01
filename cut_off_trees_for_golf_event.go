@@ -38,14 +38,26 @@ func canSlice(list_len int, some_index int) bool {
 }
 
 // representation of adjacent graph through adjacency matrix representation
+// Construction of an adjacency matrix representation of this graph:
+// for each node, if it is not 0,
+//   for adjacent_node in  [left,right,top and bottom nodes]
+//     if exist and not == 0:
+//       matrix[node][adjacent_node] = true
 func adjacencyMatrix(forest [][]int) map[int]map[int]bool {
 
 	matrix := map[int]map[int]bool{}
-	row_len := len(forest[0])
+	row_len := 0
 	col_len := len(forest)
+
+	if canSlice(col_len, 0) {
+		row_len = len(forest[0])
+	}
 
 	for row_index, row := range forest {
 		for col_index, col := range row {
+			if col == 0 {
+				continue
+			}
 			adjacents := map[int]bool{}
 
 			// left
