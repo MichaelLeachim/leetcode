@@ -29,31 +29,46 @@ package main
 
 // will either return element under this index, and ok == true
 //          or return -1                        and ok == false
-func sliceGet(some_slice []int, some_index int) (int, bool) {
-	if some_index < 0 {
-		return -1, false
+
+func canSlice(list_len int, some_index int) bool {
+	if some_index < 0 || some_index >= list_len {
+		return false
 	}
-	if some_index > len(some_slice) {
-		return -1, false
-	}
-	return some_slice[some_index], true
+	return true
 }
 
+// representation of adjacent graph through adjacency matrix representation
 func adjacencyMatrix(forest [][]int) map[int]map[int]bool {
+
 	matrix := map[int]map[int]bool{}
-	// row_len := len(forest[0])
-	// col_len := len(forest)
+	row_len := len(forest[0])
+	col_len := len(forest)
 
-	// for row_index, row := range forest {
-	// 	for col_index, col := range row {
-	// 		left, ok := sliceGet(forest, row_index-1)
-	// 		right := forest[row_index+1]
-	// 		top := forest[col_index-1]
-	// 		bottom := forest[col_index+1]
+	for row_index, row := range forest {
+		for col_index, col := range row {
+			adjacents := map[int]bool{}
 
-	// 	}
-	// }
+			// left
+			if canSlice(row_len, col_index-1) && row[col_index-1] != 0 {
+				adjacents[row[col_index-1]] = true
+			}
 
+			// right
+			if canSlice(row_len, col_index+1) && row[col_index+1] != 0 {
+				adjacents[row[col_index+1]] = true
+			}
+
+			// top
+			if canSlice(col_len, row_index-1) && forest[row_index-1][col_index] != 0 {
+				adjacents[forest[row_index-1][col_index]] = true
+			}
+			// bottom
+			if canSlice(col_len, row_index+1) && forest[row_index+1][col_index] != 0 {
+				adjacents[forest[row_index+1][col_index]] = true
+			}
+			matrix[col] = adjacents
+		}
+	}
 	return matrix
 }
 

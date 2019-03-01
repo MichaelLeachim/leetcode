@@ -13,29 +13,19 @@ import (
 )
 
 func TestSliceGet(t *testing.T) {
-	_, ok := sliceGet([]int{}, 1)
-	assert.Equal(t, ok, false)
-
-	_, ok = sliceGet([]int{}, 0)
-	assert.Equal(t, ok, false)
-
-	_, ok = sliceGet([]int{}, -1)
-	assert.Equal(t, ok, false)
-
-	item, ok := sliceGet([]int{1}, 0)
-	assert.Equal(t, ok, true)
-	assert.Equal(t, item, 1)
-
-	item, ok = sliceGet([]int{1, 2, 3, 4, 5, 6}, 0)
-	assert.Equal(t, ok, true)
-	assert.Equal(t, item, 1)
-
-	item, ok = sliceGet([]int{1, 2, 3, 4, 5, 6}, 5)
-	assert.Equal(t, ok, true)
-	assert.Equal(t, item, 6)
-
-	_, ok = sliceGet([]int{1, 2, 3, 4, 5, 6}, 6)
-	assert.Equal(t, ok, false)
+	assert.Equal(t, canSlice(len([]int{}), 1), false)
+	assert.Equal(t, canSlice(len([]int{}), 0), false)
+	assert.Equal(t, canSlice(len([]int{}), -1), false)
+	assert.Equal(t, canSlice(len([]int{1}), 0), true)
+	assert.Equal(t, canSlice(len([]int{1, 2, 3, 4, 5, 6}), 0), true)
+	assert.Equal(t, canSlice(len([]int{1, 2, 3, 4, 5, 6}), 5), true)
+	assert.Equal(t, canSlice(len([]int{1, 2, 3, 4, 5, 6}), 6), false)
+	for index, item := range []int{1, 2, 3, 4, 5, 6} {
+		if canSlice(len([]int{1, 2, 3, 4, 5, 6}), index) {
+			continue
+		}
+		assert.Fail(t, "this branch should be unreachable")
+	}
 
 }
 func TestConstructAdjacencyMatrixRepresentation(t *testing.T) {
