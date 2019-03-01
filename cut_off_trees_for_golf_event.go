@@ -27,7 +27,29 @@ package main
 //     if exist and not == 0:
 //       matrix[node][adjacent_node] = true
 
-func adjacencyMatrix(forest [][]int) [][]bool {
+// will either return element under this index, and ok == true
+//          or return -1                        and ok == false
+func sliceGet(some_slice []int, some_index int) (bool, int) {
+	lom := len(some_slice)
+
+}
+
+func adjacencyMatrix(forest [][]int) map[int][int]bool {
+	matrix := map[int][int]bool{}
+	row_len := len(forest[0])
+	col_len := len(forest)
+
+	for row_index, row := range forest {
+		for col_index, col := range row {
+
+			left := forest[row_index-1]
+			right := forest[row_index+1]
+			top := forest[col_index-1]
+			bottom := forest[col_index+1]
+
+		}
+	}
+
 	return [][]bool{}
 }
 
