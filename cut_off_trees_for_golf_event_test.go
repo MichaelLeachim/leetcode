@@ -9,6 +9,35 @@ package main
 
 import (
 	"github.com/stretchr/testify/assert"
-	"strings"
 	"testing"
 )
+
+func TestSliceGet(t *testing.T) {
+	_, ok := sliceGet([]int{}, 1)
+	assert.Equal(t, ok, false)
+
+	_, ok = sliceGet([]int{}, 0)
+	assert.Equal(t, ok, false)
+
+	_, ok = sliceGet([]int{}, -1)
+	assert.Equal(t, ok, false)
+
+	item, ok := sliceGet([]int{1}, 0)
+	assert.Equal(t, ok, true)
+	assert.Equal(t, item, 1)
+
+	item, ok = sliceGet([]int{1, 2, 3, 4, 5, 6}, 0)
+	assert.Equal(t, ok, true)
+	assert.Equal(t, item, 1)
+
+	item, ok = sliceGet([]int{1, 2, 3, 4, 5, 6}, 5)
+	assert.Equal(t, ok, true)
+	assert.Equal(t, item, 6)
+
+	_, ok = sliceGet([]int{1, 2, 3, 4, 5, 6}, 6)
+	assert.Equal(t, ok, false)
+
+}
+func TestConstructAdjacencyMatrixRepresentation(t *testing.T) {
+
+}

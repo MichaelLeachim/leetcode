@@ -29,28 +29,32 @@ package main
 
 // will either return element under this index, and ok == true
 //          or return -1                        and ok == false
-func sliceGet(some_slice []int, some_index int) (bool, int) {
-	lom := len(some_slice)
-
+func sliceGet(some_slice []int, some_index int) (int, bool) {
+	if some_index < 0 {
+		return -1, false
+	}
+	if some_index > len(some_slice) {
+		return -1, false
+	}
+	return some_slice[some_index], true
 }
 
-func adjacencyMatrix(forest [][]int) map[int][int]bool {
-	matrix := map[int][int]bool{}
-	row_len := len(forest[0])
-	col_len := len(forest)
+func adjacencyMatrix(forest [][]int) map[int]map[int]bool {
+	matrix := map[int]map[int]bool{}
+	// row_len := len(forest[0])
+	// col_len := len(forest)
 
-	for row_index, row := range forest {
-		for col_index, col := range row {
+	// for row_index, row := range forest {
+	// 	for col_index, col := range row {
+	// 		left, ok := sliceGet(forest, row_index-1)
+	// 		right := forest[row_index+1]
+	// 		top := forest[col_index-1]
+	// 		bottom := forest[col_index+1]
 
-			left := forest[row_index-1]
-			right := forest[row_index+1]
-			top := forest[col_index-1]
-			bottom := forest[col_index+1]
+	// 	}
+	// }
 
-		}
-	}
-
-	return [][]bool{}
+	return matrix
 }
 
 func cutOffTree(forest [][]int) int {
