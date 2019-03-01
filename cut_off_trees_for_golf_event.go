@@ -84,6 +84,32 @@ func adjacencyMatrix(forest [][]int) map[int]map[int]bool {
 	return matrix
 }
 
+func getDistanceByBFS(startNode int, targetNode int, matrix map[int]map[int]bool) int {
+	queue := []int{}
+	visited := map[int]bool{}
+	distance := map[int]int{}
+	var s int
+
+	queue = append(queue, startNode)
+	for len(queue) > 0 {
+		// pop operation
+		s, queue = queue[len(queue)-1], queue[:len(queue)-1]
+		for adjacent, _ := range matrix[s] {
+			if visited[adjacent] {
+				continue
+			}
+			visited[adjacent] = true
+			distance[adjacent] += 1
+			// push operation
+			queue = append([]int{adjacent}, queue...)
+			if adjacent == targetNode {
+				return distance[adjacent]
+			}
+		}
+	}
+	return distance[targetNode]
+}
+
 func cutOffTree(forest [][]int) int {
 	return 0
 }
