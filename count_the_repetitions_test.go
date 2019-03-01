@@ -14,16 +14,19 @@ import (
 
 func TestCalculateRepetitions(t *testing.T) {
 
-	assert.Equal(t, calculateRepetitions("acbacbacbacb", "aba"), 0)
-	assert.Equal(t, calculateRepetitions("acbacbacbacb", "a"), 0)
-	assert.Equal(t, calculateRepetitions("acbacbacbacb", "b"), 0)
-	assert.Equal(t, calculateRepetitions("acbacbacbacb", ""), 0)
-	assert.Equal(t, calculateRepetitions("acbacbacbacb", "acbacbacbacb"), 0)
+	assert.Equal(t, calculateRepetitions("acbacbacbacb", "aba"), 2)
+	assert.Equal(t, calculateRepetitions("acbacbacbacb", "a"), 4)
+	assert.Equal(t, calculateRepetitions("acbacbacbacb", "b"), 4)
+	assert.Equal(t, calculateRepetitions("acbacbacbacb", "ba"), 3)
+	assert.Equal(t, calculateRepetitions("acbacbacbacb", ""), -1)
+
+	assert.Equal(t, calculateRepetitions("acbacbacbacb", "acbacbacbacb"), 1)
+
 	assert.Equal(t, calculateRepetitions("acbacbacbacb", "acb"), 4)
 
 	// edge cases
-	assert.Equal(t, calculateRepetitions("", "bab"), 0)
-	assert.Equal(t, calculateRepetitions("", ""), 0)
-	assert.Equal(t, calculateRepetitions("bab", ""), 0)
+	assert.Equal(t, calculateRepetitions("", "bab"), -1)
+	assert.Equal(t, calculateRepetitions("", ""), -1)
+	assert.Equal(t, calculateRepetitions("bab", ""), -1)
 
 }

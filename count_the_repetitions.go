@@ -53,23 +53,33 @@ import ()
 //  if letter_s1 == s2[s2_advance]:
 //    s2_advance+=1
 //
-
 // will calculate repetitions of s2 within s1
+
 func calculateRepetitions(s1, s2 string) int {
+	if len(s1) == 0 || len(s2) == 0 {
+		return -1
+	}
+
 	s2_advance := 0
 	total_count := 0
-	len_s2 := len(s2)
+	s2Runes := []rune(s2)
+	len_s2 := len(s2Runes)
+
 	for _, letter := range s1 {
 		if s2_advance >= len_s2 {
 			total_count += 1
 			s2_advance = 0
-			continue
 		}
-		if letter == s2[s2_advance] {
+		if letter == s2Runes[s2_advance] {
 			s2_advance += 1
 			continue
 		}
 	}
+
+	if s2_advance >= len_s2 {
+		total_count += 1
+	}
+
 	return total_count
 }
 
