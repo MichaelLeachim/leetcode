@@ -62,18 +62,29 @@ func calculateRepetitions(s1, s2 string) int {
 
 	s2_advance := 0
 	total_count := 0
-	s2Runes := []rune(s2)
-	len_s2 := len(s2Runes)
+	s2_runes := []rune(s2)
+	len_s2 := len(s2_runes)
+	current_letter := s2_runes[0]
 
 	for _, letter := range s1 {
-		if s2_advance >= len_s2 {
-			total_count += 1
-			s2_advance = 0
-		}
-		if letter == s2Runes[s2_advance] {
-			s2_advance += 1
+
+		// skip cycle
+		if letter != current_letter {
 			continue
 		}
+
+		// letters match, advance matcher to the next letter
+		s2_advance += 1
+
+		// current match is within bounds
+		if s2_advance < len_s2 {
+			current_letter = s2_runes[s2_advance]
+			continue
+		}
+		// otherwise, reset counter to 0
+		current_letter = s2_runes[0]
+		s2_advance = 0
+		total_count += 1
 	}
 
 	if s2_advance >= len_s2 {
@@ -83,7 +94,17 @@ func calculateRepetitions(s1, s2 string) int {
 	return total_count
 }
 
+// Because the input assumed to be large (strings for up to 10^8)
+// we create iterator instead.
+type StringRepetition struct {
+	size       int
+	repetition string
+}
+
+func (s *StringRepetition) next() (rune, bool) {
+	return ' ', false
+}
+
 func getMaxRepetitions(s1 string, n1 int, s2 string, n2 int) int {
 	return 0
-
 }
