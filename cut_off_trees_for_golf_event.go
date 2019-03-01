@@ -7,6 +7,10 @@
 
 package main
 
+import (
+	"sort"
+)
+
 // Working on https://leetcode.com/problems/cut-off-trees-for-golf-event/
 
 // For all tree heights [1,2,3,...N] as k, calculate shortest
@@ -27,9 +31,8 @@ package main
 //     if exist and not == 0:
 //       matrix[node][adjacent_node] = true
 
-// will either return element under this index, and ok == true
-//          or return -1                        and ok == false
-
+// will check if it is possible to return an element from slice, given its index
+// returns false in case of bounding errors
 func canSlice(list_len int, some_index int) bool {
 	if some_index < 0 || some_index >= list_len {
 		return false
@@ -84,11 +87,15 @@ func adjacencyMatrix(forest [][]int) map[int]map[int]bool {
 	return matrix
 }
 
-func getDistanceByBFS(startNode int, targetNode int, matrix map[int]map[int]bool) int {
+func getDistanceByBFS(startNode int, targetNode int, matrix map[int]map[int]bool) (int, bool) {
 	queue := []int{}
 	visited := map[int]bool{}
 	distance := map[int]int{}
 	var s int
+
+	if startNode == targetNode {
+		return 0, true
+	}
 
 	queue = append(queue, startNode)
 	for len(queue) > 0 {
@@ -99,17 +106,61 @@ func getDistanceByBFS(startNode int, targetNode int, matrix map[int]map[int]bool
 				continue
 			}
 			visited[adjacent] = true
-			distance[adjacent] += 1
+			distance[adjacent] = distance[s] + 1
 			// push operation
 			queue = append([]int{adjacent}, queue...)
+			// I am not entirely sure that it is true for all cases
+			// should think about this case more
 			if adjacent == targetNode {
-				return distance[adjacent]
+				dst, ok := distance[adjacent]
+				return dst, ok
 			}
 		}
 	}
-	return distance[targetNode]
+	dst, ok := distance[targetNode]
+	return dst, ok
 }
 
+// For all tree heights [1,2,3,...N] as k, calculate shortest
+// BFS paths between k_n and k_n+1.
+// if no shortest path exists, return -1
+// Starting position:
+//   calculate          when starting position is the smallest
+// * when it is not
+
 func cutOffTree(forest [][]int) int {
-	return 0
+	// [0,0] point of traversal
+	startingPoint := -1
+	if canSlice(len(forest), 0) && canSlice(len(forest[0]), 0) {
+		startingPoint = forest[0][0]
+	}
+
+	if startingPoint == -1 {
+		panic("It should not be possible")
+	}
+
+	// calculate adjacency matrix
+	adjMatrix := adjacencyMatrix(forest)
+
+	// sort heights
+	order := []int{}
+	for node, _ := range adjMatrix {
+		order = append(order, node)
+	}
+	sort.Ints(order)
+
+	distance, ok := getDistanceByBFS(startingPoint, order[0], adjMatrix)
+	if !ok {
+		return -1
+	}
+	for i := 1; i <= len(order); i++ {
+		pointA, pointB := order[i-1], order[i]
+		pabDistance, ok := getDistanceByBFS(pointA, pointB, adjMatrix)
+		if !ok {
+			return -1
+		}
+		distance += pabDistance
+	}
+
+	return distance
 }
