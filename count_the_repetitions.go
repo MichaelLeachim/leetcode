@@ -6,8 +6,6 @@
 // @@@@@@ At 2019-02-28 14:54 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
 package main
 
-import ()
-
 // Working on https://leetcode.com/problems/count-the-repetitions/
 
 // Given:
@@ -96,12 +94,18 @@ func calculateRepetitions(s1, s2 string) int {
 
 // Because the input assumed to be large (strings for up to 10^8)
 // we create iterator instead.
-type StringRepetition struct {
+type stringRepetition struct {
 	size       int
 	repetition string
+	pos        int
 }
 
-func (s *StringRepetition) next() (rune, bool) {
+func newStringRepetition(input string, size int) *stringRepetition {
+	return &stringRepetition{size: size, repetition: input}
+}
+
+// advances
+func (s *stringRepetition) next() (rune, bool) {
 	return ' ', false
 }
 

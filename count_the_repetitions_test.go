@@ -12,6 +12,16 @@ import (
 	"testing"
 )
 
+func TestStringRepetition(t *testing.T) {
+	iterator := newStringRepetition("acb", 4)
+	result := ""
+	for next, hasNext := iterator.next(); hasNext; {
+		result += string(next)
+	}
+	assert.Equal(t, result, "acbacbacbacb")
+
+}
+
 func TestCalculateRepetitions(t *testing.T) {
 
 	assert.Equal(t, calculateRepetitions("acbacbacbacb", "aba"), 2)
