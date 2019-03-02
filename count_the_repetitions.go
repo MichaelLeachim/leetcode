@@ -53,6 +53,12 @@ package main
 //
 // will calculate repetitions of s2 within s1
 
+// Okay, that was bruteforce approach.
+// Let's see if we can improve it:
+// S1 = acbacbacbacbacb
+// S2 = abab
+// Match of S2 by S1 is: acbacb
+
 func getMaxRepetitions(s1 string, n1 int, s2 string, n2 int) int {
 	if len(s1) == 0 || len(s2) == 0 {
 		return -1
