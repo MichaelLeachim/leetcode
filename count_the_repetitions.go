@@ -53,7 +53,7 @@ package main
 //
 // will calculate repetitions of s2 within s1
 
-func calculateRepetitions(s1, s2 string) int {
+func getMaxRepetitions(s1 string, n1 int, s2 string, n2 int) int {
 	if len(s1) == 0 || len(s2) == 0 {
 		return -1
 	}
@@ -61,12 +61,19 @@ func calculateRepetitions(s1, s2 string) int {
 	s2_advance := 0
 	total_count := 0
 	s2_runes := []rune(s2)
+	s1_runes := []rune(s1)
 	len_s2 := len(s2_runes)
+	len_s1 := len(s1_runes)
+	s1_size := len_s1 * n1
+	s2_size := len_s2 * n2
+
 	current_letter := s2_runes[0]
 
-	for _, letter := range s1 {
+	// iterate over each letter in a first string
+	for i := 0; i < s1_size; i++ {
+		letter := s1_runes[i%len_s1]
 
-		// skip cycle
+		// skip cycle (letter does not match)
 		if letter != current_letter {
 			continue
 		}
@@ -75,8 +82,8 @@ func calculateRepetitions(s1, s2 string) int {
 		s2_advance += 1
 
 		// current match is within bounds
-		if s2_advance < len_s2 {
-			current_letter = s2_runes[s2_advance]
+		if s2_advance < s2_size {
+			current_letter = s2_runes[s2_advance%len_s2]
 			continue
 		}
 		// otherwise, reset counter to 0
@@ -84,31 +91,8 @@ func calculateRepetitions(s1, s2 string) int {
 		s2_advance = 0
 		total_count += 1
 	}
-
-	if s2_advance >= len_s2 {
+	if s2_advance >= s2_size {
 		total_count += 1
 	}
-
 	return total_count
-}
-
-// Because the input assumed to be large (strings for up to 10^8)
-// we create iterator instead.
-type stringRepetition struct {
-	size       int
-	repetition string
-	pos        int
-}
-
-func newStringRepetition(input string, size int) *stringRepetition {
-	return &stringRepetition{size: size, repetition: input}
-}
-
-// advances
-func (s *stringRepetition) next() (rune, bool) {
-	return ' ', false
-}
-
-func getMaxRepetitions(s1 string, n1 int, s2 string, n2 int) int {
-	return 0
 }

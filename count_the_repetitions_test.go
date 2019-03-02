@@ -13,30 +13,33 @@ import (
 )
 
 func TestStringRepetition(t *testing.T) {
-	iterator := newStringRepetition("acb", 4)
+	pattern := []rune("acb")
+	repeater := 4
+	lenPattern := len(pattern)
+	stringSize := lenPattern * repeater
 	result := ""
-	for next, hasNext := iterator.next(); hasNext; {
-		result += string(next)
+	for i := 0; i < stringSize; i++ {
+		result += string(pattern[i%lenPattern])
 	}
 	assert.Equal(t, result, "acbacbacbacb")
-
 }
 
-func TestCalculateRepetitions(t *testing.T) {
+func TestGetMaxRepetitions(t *testing.T) {
 
-	assert.Equal(t, calculateRepetitions("acbacbacbacb", "aba"), 2)
-	assert.Equal(t, calculateRepetitions("acbacbacbacb", "a"), 4)
-	assert.Equal(t, calculateRepetitions("acbacbacbacb", "b"), 4)
-	assert.Equal(t, calculateRepetitions("acbacbacbacb", "ba"), 3)
-	assert.Equal(t, calculateRepetitions("acbacbacbacb", ""), -1)
+	assert.Equal(t, getMaxRepetitions("acb", 4, "aba", 1), 2)
+	assert.Equal(t, getMaxRepetitions("acb", 4, "a", 1), 4)
+	assert.Equal(t, getMaxRepetitions("acb", 4, "b", 1), 4)
+	assert.Equal(t, getMaxRepetitions("acb", 4, "ba", 1), 3)
+	assert.Equal(t, getMaxRepetitions("acb", 4, "", 1), -1)
 
-	assert.Equal(t, calculateRepetitions("acbacbacbacb", "acbacbacbacb"), 1)
+	assert.Equal(t, getMaxRepetitions("acb", 2, "acb", 4), 0)
+	assert.Equal(t, getMaxRepetitions("acb", 4, "acb", 4), 1)
 
-	assert.Equal(t, calculateRepetitions("acbacbacbacb", "acb"), 4)
+	assert.Equal(t, getMaxRepetitions("acb", 4, "acb", 1), 4)
 
 	// edge cases
-	assert.Equal(t, calculateRepetitions("", "bab"), -1)
-	assert.Equal(t, calculateRepetitions("", ""), -1)
-	assert.Equal(t, calculateRepetitions("bab", ""), -1)
+	assert.Equal(t, getMaxRepetitions("", 1, "bab", 1), -1)
+	assert.Equal(t, getMaxRepetitions("", 1, "", 1), -1)
+	assert.Equal(t, getMaxRepetitions("bab", 1, "", 1), -1)
 
 }
