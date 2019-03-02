@@ -69,45 +69,60 @@ var ascii_table = (func() [26]rune {
 	return a
 })()
 
-func constructTrie(words []string, wordLen int) [][26]int {
-	trie := make([][26]int, wordLen)
-	trieSizeCounter := 0
+func constructTrie(words []string) [][26]int {
+	trie := [][26]int{[26]int{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}}
+	cur_pos := 0
 	for _, word := range words {
-		for pos, letter := range word {
-			if trie[pos][letter%26] == 0 {
-				trieSizeCounter += 1
-				trie[trieSizeCounter][letter%26] = 1
-				trie[pos][letter%26] = trieSizeCounter
+		for _, letter := range word {
+			letter = letter % 26
+			// in case, no next node
+			if trie[cur_pos][letter] == -1 {
+				trie[cur_pos][letter] = cur_pos + 1
+				trie = append(trie, [26]int{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1})
 			}
+			cur_pos = trie[cur_pos][letter]
 		}
+		cur_pos = 0
 	}
 	return trie
 }
 
-func queryTrie(query string, trie [][26]int) []string {
-	var dfs func(s, e int) [][]rune
-
-	// drill down for the given query string
-	curNode := trie[0][query[0]]
-	for _, letter := range query[1:] {
-		curNode = trie[curNode][letter]
-	}
+func queryTrie(startingNode int, trie [][26]int) []string {
+	var dfs func(s, e int) [][]int
+	// // drill down for the given query string
+	// curNode := trie[0][query[0]%26+1]
+	// for _, letter := range query[1:] {
+	// 	curNode = trie[curNode][letter%26+1]
+	// }
 
 	// perform dfs search to find all suffixes
-	dfs = func(s, e int) [][]rune {
-		wordlist := [][]rune{}
-		for letter, u := range trie[s] {
-			if u != e {
-				for _, suffix := range dfs(u, s) {
-					wordlist = append(wordlist, append([]rune{ascii_table[letter]}, suffix...))
+	dfs = func(curNode, oldNode int) [][]int {
+		wordlist := [][]int{}
+		// for each letter
+		for letter, child := range trie[curNode] {
+			if child != -1 && child != oldNode {
+
+				dfs_realized := dfs(child, curNode)
+				for _, suffix := range dfs_realized {
+					wordlist = append(wordlist, append([]int{letter}, suffix...))
+				}
+				if len(dfs_realized) == 0 {
+					wordlist = append(wordlist, []int{letter})
 				}
 			}
+
 		}
+
 		return wordlist
 	}
+	// return human readable strings
 	result := []string{}
-	for _, word := range dfs(curNode, -1) {
-		result = append(result, string(word))
+	for _, word := range dfs(startingNode, -1) {
+		row := []rune{}
+		for _, letter := range word {
+			row = append(row, ascii_table[letter])
+		}
+		result = append(result, string(row))
 	}
 	return result
 }
