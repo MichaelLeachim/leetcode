@@ -46,6 +46,10 @@ package main
 // words that start with X: for each
 func wordsThatStartWith(input string, words map[string]bool) []string {
 	result := []string{}
+	_, ok := words[input]
+	if ok {
+		result = append(result, input)
+	}
 	for i := 0; i < len(input); i++ {
 		_, ok := words[input[:i]]
 		if ok {
