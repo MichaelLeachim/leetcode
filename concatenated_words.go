@@ -66,8 +66,6 @@ func findAllConcatenatedWordsInADict(words []string) []string {
 		wordStore[word] = true
 	}
 
-	trie := constructTrie(words)
-
 	checkFnMemo := map[string]bool{}
 	var checkFn func(string) bool
 	checkFn = func(word string) bool {
@@ -75,10 +73,7 @@ func findAllConcatenatedWordsInADict(words []string) []string {
 		if ok {
 			return checked
 		}
-		for _, prefix := range traverseAndQueryTrie(word, trie) {
-			if len(prefix) > len(word) {
-				continue
-			}
+		for _, prefix := range wordsThatStartWith(word, wordStore) {
 			if len(prefix) == len(word) || checkFn(word[len(prefix):]) {
 				checkFnMemo[word] = true
 				return true
@@ -90,21 +85,9 @@ func findAllConcatenatedWordsInADict(words []string) []string {
 
 	result := []string{}
 	for _, word := range words {
-		for _, prefix := range traverseAndQueryTrie(word, trie) {
-			if len(prefix) > len(word) {
-				continue
-			}
-
-			// the same word, means nothing
-			if len(prefix) == len(word) {
-				continue
-			}
-			if checkFn(word[len(prefix):]) {
-				result = append(result, word)
-				break
-			}
+		if checkFn(word) {
+			result = append(result, word)
 		}
 	}
-
 	return result
 }
