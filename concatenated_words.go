@@ -14,6 +14,11 @@ import (
 
 // Input: ["cat","cats","catsdogcats","dog","dogcatsdog","hippopotamuses","rat","ratcatdogcat"]
 
+// check("cats") =>
+//   getPrefixes("cats") => [cat,cats]
+//     getPrefixes("cat") => [cat]
+//     getPrefixes("cats") => [cat,cats]
+
 // Compound words are always longer than simple words that they are part of
 // sorted(x)
 // Solution(x) returns ([simple words of x], [compound words of x])
@@ -91,10 +96,14 @@ func findAllConcatenatedWordsInADict(words []string) []string {
 		if len(word) == 0 {
 			return true
 		}
-		for _, prefix := range wordsThatStartWith(word, wordStore) {
-			if prefix == word {
-				continue
-			}
+		prefixes := wordsThatStartWith(word, wordStore)
+		if len(prefixes) == 1 {
+			return true
+		}
+		if len(prefixes) == 0 {
+			return false
+		}
+		for _, prefix := range prefixes {
 			if checkFn(word[len(prefix):]) {
 				log.Println(prefix, "|", word)
 				// checkFnMemo[word] = true
