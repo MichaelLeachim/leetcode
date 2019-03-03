@@ -77,7 +77,7 @@ func constructTrie(words []string) [][26]int {
 			letter = letter % 26
 			// in case, no next node
 			if trie[cur_pos][letter] == -1 {
-				trie[cur_pos][letter] = cur_pos + 1
+				trie[cur_pos][letter] = len(trie)
 				trie = append(trie, [26]int{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1})
 			}
 			cur_pos = trie[cur_pos][letter]
@@ -99,34 +99,37 @@ func traverseTrie(query string, trie [][26]int) int {
 }
 
 func queryTrie(startingNode int, trie [][26]int) []string {
-	var dfs func(s, e int) [][]int
+	// queryTree(0) = letter+queryTrie(loc) for letter,loc in trie[0], if loc exists.
+	//                if len(queryTrie(loc)) == 0, letter
+
+	var dfs func(s int) [][]int
 	// perform dfs search to find all suffixes
-	dfs = func(curNode, oldNode int) [][]int {
+	dfs = func(curNode int) [][]int {
 		wordlist := [][]int{}
-		if curNode >= len(trie) {
+		if curNode >= len(trie) || curNode < 0 {
 			return wordlist
 		}
 
-		// for each letter
-		for letter, child := range trie[curNode] {
-			if child != -1 && child != oldNode {
-
-				dfs_realized := dfs(child, curNode)
+		// for letter,loc in trie[N]
+		for letter, loc := range trie[curNode] {
+			// if loc exists
+			if loc != -1 {
+				dfs_realized := dfs(loc)
+				if len(dfs_realized) == 0 {
+					wordlist = append(wordlist, []int{letter})
+					continue
+				}
 				for _, suffix := range dfs_realized {
 					wordlist = append(wordlist, append([]int{letter}, suffix...))
 				}
-				if len(dfs_realized) == 0 {
-					wordlist = append(wordlist, []int{letter})
-				}
 			}
-
 		}
-
 		return wordlist
 	}
+
 	// return human readable strings
 	result := []string{}
-	for _, word := range dfs(startingNode, -1) {
+	for _, word := range dfs(startingNode) {
 		row := []rune{}
 		for _, letter := range word {
 			row = append(row, ascii_table[letter])
