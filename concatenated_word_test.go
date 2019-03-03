@@ -31,9 +31,11 @@ func TestConstructTrie(t *testing.T) {
 
 	assert.Equal(t, []string{"helli", "hello", "hella"}, queryTrie(0, trie))
 	assert.Equal(t, []string{"elli", "ello", "ella"}, queryTrie(1, trie))
-	assert.Equal(t, []string{"elli", "ello", "ella"}, queryTrie(2, trie))
-	assert.Equal(t, []string{"elli", "ello", "ella"}, queryTrie(3, trie))
-	assert.Equal(t, []string{"elli", "ello", "ella"}, queryTrie(4, trie))
-	assert.Equal(t, []string{"elli", "ello", "ella"}, queryTrie(5, trie))
+	assert.Equal(t, []string{"i", "o", "a"}, queryTrie(4, trie))
+
+	assert.Equal(t, []string{}, queryTrie(12, constructTrie([]string{})))
+	assert.Equal(t, []string{}, queryTrie(10, constructTrie([]string{"a"})))
+	assert.Equal(t, []string{"a"}, queryTrie(0, constructTrie([]string{"a"})))
+	assert.Equal(t, []string{"a", "b"}, queryTrie(0, constructTrie([]string{"a", "a", "a", "a", "b"})))
 
 }

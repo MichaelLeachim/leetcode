@@ -87,17 +87,26 @@ func constructTrie(words []string) [][26]int {
 	return trie
 }
 
+func traverseTrie(query string, trie [][26]int) int {
+	curNode := 0
+	for _, letter := range query {
+		curNode = trie[curNode][letter%26]
+		if curNode == -1 {
+			return -1
+		}
+	}
+	return curNode
+}
+
 func queryTrie(startingNode int, trie [][26]int) []string {
 	var dfs func(s, e int) [][]int
-	// // drill down for the given query string
-	// curNode := trie[0][query[0]%26+1]
-	// for _, letter := range query[1:] {
-	// 	curNode = trie[curNode][letter%26+1]
-	// }
-
 	// perform dfs search to find all suffixes
 	dfs = func(curNode, oldNode int) [][]int {
 		wordlist := [][]int{}
+		if curNode >= len(trie) {
+			return wordlist
+		}
+
 		// for each letter
 		for letter, child := range trie[curNode] {
 			if child != -1 && child != oldNode {
