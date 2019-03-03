@@ -18,13 +18,16 @@ func TestWordsThatStartWith(t *testing.T) {
 	assert.Equal(t, []string{}, wordsThatStartWith("h", map[string]bool{"hello": true, "helloworld": true, "brabus": true, "holo": true}))
 	assert.Equal(t, []string{"hello", "helloworld"}, wordsThatStartWith("helloworldblab", map[string]bool{"hello": true, "helloworld": true, "brabus": true, "holo": true}))
 	assert.Equal(t, []string{}, wordsThatStartWith("", map[string]bool{}))
+	assert.Equal(t, []string{}, wordsThatStartWith("cats", map[string]bool{"cat": true, "cats": true}))
 }
 
 func TestFindAllConcatenatedWordsInADict(t *testing.T) {
-	assert.Equal(t, findAllConcatenatedWordsInADict([]string{"catsdogscat", "cats", "cat", "dog"}), []string{"catsdogscat"})
-	assert.Equal(t, findAllConcatenatedWordsInADict([]string{"catsdog", "cat", "sdog", "dog"}), []string{"catsdog"})
-	assert.Equal(t, findAllConcatenatedWordsInADict([]string{}), []string{})
-	assert.Equal(t, findAllConcatenatedWordsInADict([]string{"a", "aa", "aaa", "aaaa"}), []string{"aa", "aaaa", "aaa"})
-	assert.Equal(t, findAllConcatenatedWordsInADict([]string{"", "aa", "aaa", "aaaa"}), []string{"aaaa"})
+	// assert.Equal(t, findAllConcatenatedWordsInADict([]string{"catsdogscat", "cats", "cat", "dog"}), []string{"catsdogscat"})
+	assert.Equal(t, findAllConcatenatedWordsInADict([]string{"catdogcat", "cat", "dog"}), []string{"catdogdcat"})
+
+	// assert.Equal(t, findAllConcatenatedWordsInADict([]string{"catsdog", "cat", "sdog", "dog"}), []string{"catsdog"})
+	// assert.Equal(t, findAllConcatenatedWordsInADict([]string{}), []string{})
+	// assert.Equal(t, findAllConcatenatedWordsInADict([]string{"a", "aa", "aaa", "aaaa"}), []string{"aa", "aaaa", "aaa"})
+	// assert.Equal(t, findAllConcatenatedWordsInADict([]string{"", "aa", "aaa", "aaaa"}), []string{"aaaa"})
 
 }

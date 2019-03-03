@@ -6,6 +6,10 @@
 // @@@@@@ At 2019-02-28 14:53 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
 package main
 
+import (
+	"log"
+)
+
 // Problem: https://leetcode.com/problems/concatenated-words/
 
 // Input: ["cat","cats","catsdogcats","dog","dogcatsdog","hippopotamuses","rat","ratcatdogcat"]
@@ -17,31 +21,41 @@ package main
 //                                                     => check against simple words,
 //                                                          if match, then to [concatenaded words]
 //                                                          otherwise      to [simple words]
+// No point in doing that, although the idea that compound words are always longer wants to be exploited
+
+//
 //  Tricky usecase for greedy check: ["catsdog","cat","sdog","dog"], if match "dog", then the "catsdog" is not going to be matched
-// check("catdog") => 1
-// check("catdo") =>  0
-// check("catd")  =>  0
-// check("cat")   =>  1
-
-// check(word) =>
-// if empty word:
-//   return true
-// for suffix in trieMatchAllSuffixes(word):
-//   if(suffix == word):
-//     return true
-//   return check(word - suffix)
-
 // [catsdogscat,cats,cat,dog]
-// getAllPrefixes(catsdogscat) => [cats,catsdogscat]
 // getAllWordsThatStartWith(cats) => [cats,catsdogscat]
+// check(catsdog) => [catsdog,cat]
 
 // (cats, catsdogscat)
+//["catsdogscat", "cats", "cat", "dog","catsdogcat"]
+// check(catsdogcat) = [cats] + check(dogcat)
+//   check(dogcat)  = [dog] + check(cat)
+//   check(cat)     = true
+
+// check(cats) = (cat + check(s)) == false || (cats + check())
+
+// check(catsdogscat) = [cats] + check(dogscat)
+//   check(dogscat)  =  [dog] + check(scat)
+//   check(scat)     =  false
+
+// check("cats") = false
+// check("cat")  = false
+// check("dog")  = false
+// check("catsdogscat") = cat + check(sdogscat) || cats + check(dogscat) || catsdogscat + check()
+// check(sdogscat) = []
+// check(cats)     = []
+// check(catsdogcat) = [cats + dogcat + ca]tg
 
 // checkFn(X) =>
-//   for wordsThatStartWithX in getAllWordsThatStartWith(X):
+//   for wordThatStartWithX in getAllWordsThatStartWith(X):
 //     if (len(wordThatStartWithX) == len(X)) || checkFn(wordThatStartWithX without X):
 //       return true
 //   return false
+
+// checkFN(X) = [check(X without prefix) for every existing prefix if x != 0] if only one is X
 
 // words that start with X: for each
 func wordsThatStartWith(input string, words map[string]bool) []string {
@@ -66,27 +80,42 @@ func findAllConcatenatedWordsInADict(words []string) []string {
 		wordStore[word] = true
 	}
 
-	checkFnMemo := map[string]bool{}
+	// checkFnMemo := map[string]bool{}
 	var checkFn func(string) bool
 	checkFn = func(word string) bool {
-		checked, ok := checkFnMemo[word]
-		if ok {
-			return checked
+		// checked, ok := checkFnMemo[word]
+		// if ok {
+		// 	return checked
+		// }
+
+		if len(word) == 0 {
+			return true
 		}
 		for _, prefix := range wordsThatStartWith(word, wordStore) {
-			if len(prefix) == len(word) || checkFn(word[len(prefix):]) {
-				checkFnMemo[word] = true
+			if prefix == word {
+				continue
+			}
+			if checkFn(word[len(prefix):]) {
+				log.Println(prefix, "|", word)
+				// checkFnMemo[word] = true
 				return true
 			}
 		}
-		checkFnMemo[word] = false
+		// checkFnMemo[word] = false
 		return false
 	}
 
 	result := []string{}
 	for _, word := range words {
-		if checkFn(word) {
-			result = append(result, word)
+		for _, check := range wordsThatStartWith(word, wordStore) {
+			// skip self reference
+			if check == word {
+				continue
+			}
+			if checkFn(check) {
+				result = append(result, word)
+				break
+			}
 		}
 	}
 	return result
