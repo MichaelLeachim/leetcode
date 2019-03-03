@@ -34,6 +34,14 @@ package main
 //     return true
 // return false
 
+// check(word) =>
+// if empty word:
+//   return true
+// for suffix in trieMatchAllSuffixes(word):
+//   if(suffix == word):
+//     return true
+//   return check(word - suffix)
+
 // constructTrie
 // according to the problem definition: the maximum N is 600000, 26 is the number
 // of letters in English
@@ -87,15 +95,22 @@ func constructTrie(words []string) [][26]int {
 	return trie
 }
 
-func traverseTrie(query string, trie [][26]int) int {
+func traverseAndQueryTrie(query string, trie [][26]int) []string {
 	curNode := 0
 	for _, letter := range query {
 		curNode = trie[curNode][letter%26]
 		if curNode == -1 {
-			return -1
+			return []string{}
 		}
 	}
-	return curNode
+	result := []string{}
+	for _, word := range queryTrie(curNode, trie) {
+		result = append(result, query+word)
+	}
+	if len(result) == 0 {
+		result = append(result, query)
+	}
+	return result
 }
 
 func queryTrie(startingNode int, trie [][26]int) []string {
@@ -139,6 +154,64 @@ func queryTrie(startingNode int, trie [][26]int) []string {
 	return result
 }
 
+// [catsdogscat,cats,cat,dog]
+// getAllPrefixes(catsdogscat) => [cats,catsdogscat]
+// getAllPrefixes(cats) => [cats]
+
+// checkFn(X) =>
+//   if len(getAllPrefixes(X)) == 1
+//     return true
+//   if len(getAllPrefixes(X)) == 0
+//     return false
+
+//   for prefix in getAllPrefixes(X):
+//     if (len(prefix) == len(X)) || checkFn(X without prefix):
+//       return true
+//   return false
+
+// if empty word:
+//   return true
+// for suffix in trieMatchAllSuffixes(word):
+//   if(suffix == word):
+//     return true
+//   return check(word - suffix)
+
 func findAllConcatenatedWordsInADict(words []string) []string {
-	return []string{}
+
+	trie := constructTrie(words)
+
+	checkFnMemo := map[string]bool{}
+	var checkFn func(string) bool
+	checkFn = func(word string) bool {
+		checked, ok := checkFnMemo[word]
+		if ok {
+			return checked
+		}
+		allPrefixes := traverseAndQueryTrie(word, trie)
+		if len(allPrefixes) == 0 {
+			checkFnMemo[word] = false
+			return false
+		}
+		if len(allPrefixes) == 1 {
+			checkFnMemo[word] = true
+			return true
+		}
+		for _, prefix := range allPrefixes {
+			if len(prefix) == len(word) || checkFn(word[len(prefix):]) {
+				checkFnMemo[word] = true
+				return true
+			}
+		}
+		checkFnMemo[word] = false
+		return false
+	}
+	result := []string{}
+	for _, word := range words {
+		if checkFn(word) {
+			result = append(result, word)
+		}
+
+	}
+
+	return result
 }

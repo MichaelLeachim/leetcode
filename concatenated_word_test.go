@@ -9,11 +9,13 @@ package main
 
 import (
 	"github.com/stretchr/testify/assert"
+	"math/rand"
 	"strconv"
 	"testing"
+	"time"
 )
 
-func TestConstructQueryAndTraverseTrie(t *testing.T) {
+func TestTrie(t *testing.T) {
 	// testing construction
 	trie := constructTrie([]string{"hello", "hella", "helli"})
 	assert.Equal(t, len(trie), 8)
@@ -50,6 +52,15 @@ func TestConstructQueryAndTraverseTrie(t *testing.T) {
 	assert.Equal(t, []string{"i"}, queryTrie(0, constructTrie([]string{"i", "i", "i"})))
 	assert.Equal(t, []string{}, queryTrie(0, constructTrie([]string{"", "", ""})))
 
+	// test traversing and queryig trie
+	assert.Equal(t, traverseAndQueryTrie("hel", constructTrie([]string{"hello", "dear", "world", "hella", "helli"})),
+		[]string{"helli", "hello", "hella"})
+	assert.Equal(t, traverseAndQueryTrie("", constructTrie([]string{"hello", "hella", "helli"})),
+		[]string{"helli", "hello", "hella"})
+	assert.Equal(t, traverseAndQueryTrie("bobobo", constructTrie([]string{"hello", "hella", "helli"})), []string{})
+	assert.Equal(t, traverseAndQueryTrie("hella", constructTrie([]string{"hello", "hella", "helli"})), []string{"hella"})
+	assert.Equal(t, traverseAndQueryTrie("hella", constructTrie([]string{})), []string{})
+
 	// test edge cases
 	assert.Equal(t, []string{}, queryTrie(12, constructTrie([]string{})))
 	assert.Equal(t, []string{}, queryTrie(10, constructTrie([]string{"a"})))
@@ -57,4 +68,48 @@ func TestConstructQueryAndTraverseTrie(t *testing.T) {
 	assert.Equal(t, []string{"a", "b"}, queryTrie(0, constructTrie([]string{"a", "a", "a", "a", "b"})))
 	assert.Equal(t, []string{}, queryTrie(128, constructTrie([]string{"a", "a", "a", "a", "b"})))
 	assert.Equal(t, []string{}, queryTrie(-100, constructTrie([]string{"a", "a", "a", "a", "b"})))
+
+}
+
+func TestFindAllConcatenatedWordsInADict(t *testing.T) {
+	assert.Equal(t, findAllConcatenatedWordsInADict([]string{"catsdogscat", "cats", "cat", "dog"}), []string{"catsdogscat"})
+	assert.Equal(t, findAllConcatenatedWordsInADict([]string{"catsdog", "cat", "sdog", "dog"}), []string{"catsdog"})
+	assert.Equal(t, findAllConcatenatedWordsInADict([]string{}), []string{})
+	assert.Equal(t, findAllConcatenatedWordsInADict([]string{"a", "aa", "aaa", "aaaa"}), []string{"aa", "aaaa", "aaa"})
+
+}
+func BenchmarkTraverseAndQueryTrie(t *testing.B) {
+	rand.Seed(time.Now().UTC().UnixNano())
+	wordDict := []string{"apple", "pen", "applepen", "pine", "pineapple"}
+	benchStrings := []string{}
+	for i := 0; i <= 10000; i++ {
+		randomWord := ""
+		for k := 0; k <= int(rand.Int31n(20)); k++ {
+			randomWord += wordDict[int(rand.Int31n(int32(len(wordDict))))]
+		}
+		benchStrings = append(benchStrings, randomWord)
+	}
+	someTrie := constructTrie(benchStrings)
+	for n := 0; n < t.N; n++ {
+		traverseAndQueryTrie(wordDict[int(rand.Int31n(int32(len(wordDict))))], someTrie)
+	}
+
+}
+func BenchmarkConstructTrie(t *testing.B) {
+
+	rand.Seed(time.Now().UTC().UnixNano())
+	wordDict := []string{"apple", "pen", "applepen", "pine", "pineapple"}
+	benchStrings := []string{}
+	for i := 0; i <= 10000; i++ {
+		randomWord := ""
+		for k := 0; k <= int(rand.Int31n(20)); k++ {
+			randomWord += wordDict[int(rand.Int31n(int32(len(wordDict))))]
+		}
+		benchStrings = append(benchStrings, randomWord)
+	}
+
+	for n := 0; n < t.N; n++ {
+		constructTrie(benchStrings)
+	}
+
 }
