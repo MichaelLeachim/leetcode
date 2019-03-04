@@ -11,7 +11,8 @@ in reverse chronological order. </br>
   * Third, **do not overoptimize**. Use whatever structures you already have in stdlib. Trie took me ~4 hours 
     to work and pass all tests and still I am not sure whether it is an optimal trie, or there are more 
     tricks to it.
-    
+  * And the last. Field related topics on Leetcode lies. 
+  
   Submission details: https://leetcode.com/submissions/detail/212304244/
   
 * **[2019-03-02]**   [Count the repetitions](https://leetcode.com/problems/count-the-repetitions/) </br>
