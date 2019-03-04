@@ -9,6 +9,8 @@ TODO:
 This is a Leet log. A log of Leetcode problems and their solutions done by me, </br>
 in reverse chronological order. </br>
 </br>
+* **[2019-03-04]** [PostOrderTraversal](https://leetcode.com/problems/binary-tree-postorder-traversal/)</br>
+  Recursive solution: https://leetcode.com/submissions/detail/212317430/
 * **[2019-03-04]**   [19. Remove Nth Node From End of List](https://leetcode.com/problems/remove-nth-node-from-end-of-list/)</br>
   Trivial problem and of medium difficulty, but I wanted it to solve because I've never really worked with linked lists. </br>
   Took me 40-50 minutes to solve it. The trick to do it in one pass, is to iterate first to the `N`, and then walk forward </br>
