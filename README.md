@@ -10,7 +10,10 @@ This is a Leet log. A log of Leetcode problems and their solutions done by me, <
 in reverse chronological order. </br>
 </br>
 * **[2019-03-04]** [PostOrderTraversal](https://leetcode.com/problems/binary-tree-postorder-traversal/)</br>
-  Iterative solution: https://leetcode.com/submissions/detail/212318706/
+  Iterative solution: Ok, that wasn't simple. Tomorrow, implement conditional jumps in iterative algorithm.
+  Emulate call stack. Figure out how to make return addresses/jumps within the subroutine. 
+  (Nothing extraordinary, but I am too tired today already)
+  
 * **[2019-03-04]** [PostOrderTraversal](https://leetcode.com/problems/binary-tree-postorder-traversal/)</br>
   Recursive solution: https://leetcode.com/submissions/detail/212317430/
 * **[2019-03-04]**   [19. Remove Nth Node From End of List](https://leetcode.com/problems/remove-nth-node-from-end-of-list/)</br>
