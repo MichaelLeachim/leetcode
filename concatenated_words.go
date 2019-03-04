@@ -54,13 +54,19 @@ import (
 // check(cats)     = []
 // check(catsdogcat) = [cats + dogcat + ca]tg
 
-// checkFn(X) =>
-//   for wordThatStartWithX in getAllWordsThatStartWith(X):
-//     if (len(wordThatStartWithX) == len(X)) || checkFn(wordThatStartWithX without X):
-//       return true
+// solution(X,isFirstLevel?)
+//   noPrefix && isFirstLevel  => fatal("Cannot happen")
+//   noPrefix && notFirstLevel => return false
+//   for prefix in X:
+//     isFirstLevel:
+//       prefix is empty => fatal("cannot happen")
+//       prefix != X  =>
+//         if solution(X-prefix,false) =>  return true
+//     notFirstLevel:
+//       prefix is empty => return true
+//       prefix == X => return true (match happened)
+//       prefix != X => if solution(X-prefix,false) =>  return true
 //   return false
-
-// checkFN(X) = [check(X without prefix) for every existing prefix if x != 0] if only one is X
 
 // words that start with X: for each
 func wordsThatStartWith(input string, words map[string]bool) []string {
