@@ -27,13 +27,26 @@ type ListNode struct {
 	Next *ListNode
 }
 
+//
 func removeNthFromEnd(head *ListNode, n int) *ListNode {
 	finalNode := head
 	for i := 0; i < n; i++ {
-		finalNode = head.Next
+		if finalNode == nil {
+			panic("Cannot happen")
+		}
+		finalNode = finalNode.Next
 	}
+
 	for curNode := head; curNode != nil; curNode = curNode.Next {
+		if finalNode == nil {
+			return curNode.Next
+		}
+
 		if finalNode.Next == nil {
+			if n == 0 {
+				curNode = curNode.Next
+				return head
+			}
 			curNode.Next = curNode.Next.Next
 			return head
 		}

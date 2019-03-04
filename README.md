@@ -3,6 +3,13 @@
 This is a Leet log. A log of Leetcode problems and their solutions done by me, </br>
 in reverse chronological order. </br>
 </br>
+* **[2019-03-04]**   [19. Remove Nth Node From End of List](https://leetcode.com/problems/remove-nth-node-from-end-of-list/)</br>
+  Trivial problem and of medium difficulty, but I wanted it to solve because I've never really worked with linked lists. </br>
+  Took me 40-50 minutes to solve it. The trick to do it in one pass, is to iterate first to the `N`, and then walk forward </br>
+  maintaining two pointers: one for current, one for `current+N`, when `N is nil`, `current.next = current.next.next` </br>
+  Submission details: https://leetcode.com/submissions/detail/212314347/ </br>
+  
+  
 * **[2019-03-04]**   [472. Concatenated Words](https://leetcode.com/problems/concatenated-words/) </br>
   Took me long time. Because was implementing trie from scratch, which is a lot of boring work :( 
   In the end, replaced trie with a simple hashmap. Tricks to use: 
