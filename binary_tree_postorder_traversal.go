@@ -19,56 +19,61 @@ const isIterative = true
 
 // working iterative solution
 func postorderTraversalIterative(rootNode *TreeNode) []int {
-	result := []int{}
-
-	afterTraverseRight := func(root *TreeNode) {
-		result = append(result, root.Val)
+	if rootNode == nil {
+		return []int{}
 	}
-	afterTraverseLeft := func(stack []*TreeNode, root *TreeNode) {
-		if root.Right != nil {
-			stack = append(stack, root.Right)
-			return
-		}
-		afterTraverseRight(root)
-	}
-
 	type StackFrame struct {
 		t *TreeNode
 		p int
 	}
-	var root *TreeNode
+	root := rootNode
 	var stackFrame *StackFrame
 
-	stack := []*StackFrame{&StackFrame{t: rootNode, p: 1}}
-	for len(stack) != 0 {
-		stack, stackFrame = stack[:len(stack)-1], stack[len(stack)-1]
-		root = stackFrame.t
-		// implementation of jumps in stackframe
-		switch stackFrame.p {
-		default:
-			if root.Left != nil {
+	result := []int{}
 
-				continue
-			}
-			if root.Right != nil {
-				stack = append(stack, &StackFrame{p: 4, t: root.Right})
-				continue
-			}
-			result = append(result, root.Val)
-		case 1:
-			if root.Left != nil {
-				stack = append(stack, &StackFrame{p: 3, t: root.Left})
-				continue
-			}
-		case 2:
-			if root.Right != nil {
-				stack = append(stack, &StackFrame{p: 4, t: root.Right})
-				continue
+	stack := []*StackFrame{&StackFrame{t: rootNode, p: 1}}
+
+	for len(stack) != 0 {
+		if root == nil {
+			// exit operation. Pop out stack frame, change funtion context
+			stack, stackFrame = stack[:len(stack)-1], stack[len(stack)-1]
+			root = stackFrame.t
+			switch stackFrame.p {
+			case 2:
+				goto second
+			case 3:
+				goto third
 			}
 		}
-		return result
+		if root != nil && root.Left != nil {
+			// save current execution context onto stack
+			stack = append(stack, &StackFrame{p: 2, t: root})
+			// change current execution context into recurrent one
+			root = root.Left
+			continue
+		}
+	second:
+		if root != nil && root.Right != nil {
+			// save current execution context onto stack
+			stack = append(stack, &StackFrame{p: 3, t: root})
+			// change current execution context into recurrent one
+			root = root.Right
+			continue
+		}
+	third:
+		result = append(result, root.Val)
+		// return from recursion:
+		stack, stackFrame = stack[:len(stack)-1], stack[len(stack)-1]
+		// restore parent execution context
+		root = stackFrame.t
+		switch stackFrame.p {
+		case 2:
+			goto second
+		case 3:
+			goto third
+		}
 	}
-	return []int{}
+	return result
 }
 
 // working recursive solution
@@ -87,6 +92,7 @@ func postOrderTraversalRecursive(root *TreeNode) []int {
 			traverse(root.Right)
 		}
 		result = append(result, root.Val)
+		return
 	}
 
 	traverse(root)

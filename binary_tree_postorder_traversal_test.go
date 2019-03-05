@@ -33,7 +33,8 @@ func TestBinaryTreePostorderTraversal(t *testing.T) {
 		Left:  &TreeNode{Val: 1},
 		Right: &TreeNode{Val: 2},
 	}
-	// assert.Equal(t, postorderTraversalIterative(tree), []int{1, 2, 3})
+	assert.Equal(t, postorderTraversalIterative(tree), []int{1, 2, 3})
 	assert.Equal(t, postOrderTraversalRecursive(tree), []int{1, 2, 3})
+	assert.Equal(t, postorderTraversalIterative(nil), []int{})
 
 }

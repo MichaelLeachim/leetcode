@@ -9,6 +9,11 @@ TODO:
 This is a Leet log. A log of Leetcode problems and their solutions done by me, </br>
 in reverse chronological order. </br>
 </br>
+* **[2019-03-05]** [PostOrderTraversal](https://leetcode.com/problems/binary-tree-postorder-traversal/)</br>
+  Iterative solution is now working. I've made it by emulating `call stack` and using `goto` statements to </br>
+  make jumps to recursive points. </br>
+  Submission details: https://leetcode.com/submissions/detail/212493978/</br>
+  
 * **[2019-03-04]** [PostOrderTraversal](https://leetcode.com/problems/binary-tree-postorder-traversal/)</br>
   Iterative solution: Ok, that wasn't simple. Tomorrow, implement conditional jumps in iterative algorithm.
   Emulate call stack. Figure out how to make return addresses/jumps within the subroutine. 
