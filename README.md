@@ -5,10 +5,15 @@ TODO:
 * https://leetcode.com/problems/recover-binary-search-tree/  
 * https://leetcode.com/problems/sum-of-distances-in-tree/
 * https://leetcode.com/problems/binary-tree-cameras/
+* https://leetcode.com/problems/basic-calculator/
 
 This is a Leet log. A log of Leetcode problems and their solutions done by me, </br>
 in reverse chronological order. </br>
 </br>
+* **[2019-03-05]** [Basic calculator](https://leetcode.com/problems/basic-calculator/)</br>
+  Implemented tokenizer and calculator for this problem (Don't know why it is in hard section, but solved it nonetheless)</br>
+  Submission details: https://leetcode.com/submissions/detail/212534416/
+
 * **[2019-03-05]** [PostOrderTraversal](https://leetcode.com/problems/binary-tree-postorder-traversal/)</br>
   Iterative solution is now working. I've made it by emulating `call stack` and using `goto` statements to </br>
   make jumps to recursive points. </br>
