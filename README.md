@@ -1,11 +1,10 @@
 # LeetLog 
 
 TODO: 
-
+* [10 minute problem, for starting out] https://leetcode.com/problems/number-of-1-bits/
 * https://leetcode.com/problems/recover-binary-search-tree/  
 * https://leetcode.com/problems/sum-of-distances-in-tree/
 * https://leetcode.com/problems/binary-tree-cameras/
-* https://leetcode.com/problems/basic-calculator/
 
 This is a Leet log. A log of Leetcode problems and their solutions done by me, </br>
 in reverse chronological order. </br>
