@@ -16,6 +16,7 @@ in reverse chronological order. </br>
 * **[2019-03-05]** [PostOrderTraversal](https://leetcode.com/problems/binary-tree-postorder-traversal/)</br>
   Iterative solution is now working. I've made it by emulating `call stack` and using `goto` statements to </br>
   make jumps to recursive points. </br>
+  For possible optimization, should make streaming tokenizer, not consume entire input into memory</br>
   Submission details: https://leetcode.com/submissions/detail/212493978/</br>
   
 * **[2019-03-04]** [PostOrderTraversal](https://leetcode.com/problems/binary-tree-postorder-traversal/)</br>
