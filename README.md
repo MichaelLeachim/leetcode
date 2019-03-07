@@ -6,9 +6,21 @@ TODO:
 * https://leetcode.com/problems/sum-of-distances-in-tree/
 * https://leetcode.com/problems/binary-tree-cameras/
 
+
 This is a Leet log. A log of Leetcode problems and their solutions done by me, </br>
 in reverse chronological order. </br>
 </br>
+* **[2019-03-07]** [Largest rectangle in histogram](https://leetcode.com/problems/largest-rectangle-in-histogram/)
+  That wasn't easy at all. First, I tried dynamic programming approach. It passed tests except tle on large input.</br>
+  Then, I tried stack based solution. (That I yesterday decided to make). It didn't work either. Today, I tried another</br>
+  way to handle this using dynamic programming reducing input through removing one of the params to the DP solve function.</br>
+  Then, translated that algorithm into stack based. </br>
+  And what is in the end?  My solution in the **bottom 10% of efficiency**. I guess, if I've just calculated all possible solutions</br>
+  and choose the best it would work faster. </br>
+  Anyways, at least, the solution was accepted, so I move on. </br>
+  Later, when I will solve first 100 or so of these problems. I will return back and try to optimize these things</br>
+  Submission details: https://leetcode.com/submissions/detail/213024073/n
+  
 * **[2019-03-05]** [Basic calculator](https://leetcode.com/problems/basic-calculator/)</br>
   Implemented tokenizer and calculator for this problem (Don't know why it is in hard section, but solved it nonetheless)</br>
   Submission details: https://leetcode.com/submissions/detail/212534416/
