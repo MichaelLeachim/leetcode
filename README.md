@@ -10,13 +10,21 @@ TODO:
 * https://leetcode.com/problems/maximal-rectangle/
 * https://leetcode.com/problems/the-skyline-problem/
 * https://leetcode.com/problems/largest-component-size-by-common-factor/
+* https://leetcode.com/problems/longest-increasing-path-in-a-matrix/
 
 This is a Leet log. A log of Leetcode problems and their solutions done by me, </br>
 in reverse chronological order. </br>
 
 </br>
 
-
+* **[2019-03-09]**  [Largest Component Size by Common Factor](https://leetcode.com/problems/largest-component-size-by-common-factor/)
+  Solved this problem by using **union find** structure. Good thing about this problem is that it had me to study:
+    * what is a **component** of a graph
+    * what is a **factorization** of a number (for example, I didn't know that 1 wasn't prime, and didn't know any factorization algorithms)
+    * what is a **union find** structure. I haven't heard about it before 
+  Overall, although, I spent more time on it. (I should solve one/day, not one/2days), this problem was beneficial to me.  
+  Submission details: https://leetcode.com/submissions/detail/213483591/
+  
 * **[2019-03-07]**  [Largest rectangle in histogram](https://leetcode.com/problems/largest-rectangle-in-histogram/)</br>
   That wasn't easy at all. First, I tried dynamic programming approach. It passed tests except tle on large input.</br>
   Then, I tried stack based solution. (That I yesterday decided to make). It didn't work either. Today, I tried another</br>
