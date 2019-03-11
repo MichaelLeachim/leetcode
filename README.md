@@ -14,14 +14,13 @@ This is a Leet log. A log of Leetcode problems and their solutions done by me, <
 in reverse chronological order. </br>
 
 </br>
-* **[2019-03-11]** [218. The Skyline Problem](https://leetcode.com/problems/the-skyline-problem/)</br>
-  One thing to consider:
-    * Should not implement separate logic for ending calculations
+
+* **[2019-03-11]** [The Skyline Problem](https://leetcode.com/problems/the-skyline-problem/) </br>
   Overall, the idea is to not to spend time on tangential problems. For example, I've spent a lot of </br>
   time implementing `iterateBeginEndOverSkyLine`. Which I shouldn't have done. </br>
-  I should assume that the average hard problem requires no more than an hour for </br>
+  I should have assumed that the average hard problem requires no more than an hour for </br>
   thinking and implementing. If I am thinking about implementing something longer, </br>
-  then this solution is not the optimal one</br>
+  then this solution is most probably not the optimal one</br>
   Submission details: https://leetcode.com/submissions/detail/213984432/</br>
 
 * **[2019-03-09]**  [Largest Component Size by Common Factor](https://leetcode.com/problems/largest-component-size-by-common-factor/)
