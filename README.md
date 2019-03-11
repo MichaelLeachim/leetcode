@@ -18,7 +18,7 @@ in reverse chronological order. </br>
 * **[2019-03-11]** [The Skyline Problem](https://leetcode.com/problems/the-skyline-problem/) </br>
   Overall, the idea is to not to spend time on tangential problems. For example, I've spent a lot of </br>
   time implementing `iterateBeginEndOverSkyLine`. Which I shouldn't have done. </br>
-  I should have assumed that the average hard problem requires no more than an hour for </br>
+  I should have assumed that the average hard problem requires **no more than an hour** for </br>
   thinking and implementing. If I am thinking about implementing something longer, </br>
   then this solution is most probably not the optimal one</br>
   Submission details: https://leetcode.com/submissions/detail/213984432/</br>
