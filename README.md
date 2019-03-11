@@ -8,14 +8,21 @@ TODO:
 * https://leetcode.com/problems/odd-even-jump/
 * https://leetcode.com/problems/substring-with-concatenation-of-all-words/
 * https://leetcode.com/problems/maximal-rectangle/
-* https://leetcode.com/problems/the-skyline-problem/
-* https://leetcode.com/problems/largest-component-size-by-common-factor/
 * https://leetcode.com/problems/longest-increasing-path-in-a-matrix/
 
 This is a Leet log. A log of Leetcode problems and their solutions done by me, </br>
 in reverse chronological order. </br>
 
 </br>
+* **[2019-03-11]** [218. The Skyline Problem](https://leetcode.com/problems/the-skyline-problem/)</br>
+  One thing to consider:
+    * Should not implement separate logic for ending calculations
+  Overall, the idea is to not to spend time on tangential problems. For example, I've spent a lot of </br>
+  time implementing `iterateBeginEndOverSkyLine`. Which I shouldn't have done. </br>
+  I should assume that the average hard problem requires no more than an hour for </br>
+  thinking and implementing. If I am thinking about implementing something longer, </br>
+  then this solution is not the optimal one</br>
+  Submission details: https://leetcode.com/submissions/detail/213984432/</br>
 
 * **[2019-03-09]**  [Largest Component Size by Common Factor](https://leetcode.com/problems/largest-component-size-by-common-factor/)
   Solved this problem by using **union find** structure. Good thing about this problem is that it had me to study:
