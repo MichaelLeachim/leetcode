@@ -25,7 +25,7 @@ in reverse chronological order. </br>
   I am able to implement naive DP solutions. (Meaning I get the intuition behind the solution and </br>
   I can break down problem into subproblems to create a recursive definition) But I still cannot implement performant solutions </br>
   In particular, this problem requires using the **monotonic stack** technique, that I haven't found</br>
-  in CPHB</br>. And didn't know about beforehand.</br>
+  in CPHB</br>
   So, after I solve first 100 of hard problems, I should work on the optimization of my solutions. </br>
   Submission details: https://leetcode.com/submissions/detail/214320084/</br>
 
