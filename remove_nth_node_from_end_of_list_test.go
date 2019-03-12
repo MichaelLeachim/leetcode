@@ -34,7 +34,7 @@ func TestRemoveNthFromEnd(t *testing.T) {
 	assert.Equal(t, list2slice(removeNthFromEnd(mklist(1, 2, 3, 4, 5), 1)), []int{1, 2, 3, 4})
 	assert.Equal(t, list2slice(removeNthFromEnd(mklist(1, 2, 3, 4, 5), 5)), []int{2, 3, 4, 5})
 
-	assert.Equal(t, list2slice(removeNthFromEnd(mklist(1, 2, 3, 4, 5), 0)), []int{1, 2, 3, 4})
+	assert.Equal(t, list2slice(removeNthFromEnd(mklist(1, 2, 3, 4, 5), 0)), []int{1, 2, 3, 4, 5})
 
 	// assert.Equal(t, list2slice(removeNthFromEnd(mklist(1, 2, 3, 4, 5), 2)), []int{1, 2, 3, 5})
 

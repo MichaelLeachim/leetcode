@@ -1,4 +1,10 @@
 # LeetLog 
+TODO (SQL):
+
+* https://leetcode.com/problems/human-traffic-of-stadium/
+* https://leetcode.com/problems/trips-and-users/
+* https://leetcode.com/problems/department-top-three-salaries/
+* https://leetcode.com/problems/nth-highest-salary/
 
 TODO: 
 * [10 minute problem, for starting out] https://leetcode.com/problems/number-of-1-bits/
@@ -14,6 +20,14 @@ This is a Leet log. A log of Leetcode problems and their solutions done by me, <
 in reverse chronological order. </br>
 
 </br>
+
+* **[2019-03-12]** [Odd even jump](https://leetcode.com/problems/odd-even-jump/)</br>
+  I am able to implement naive DP solutions. (Meaning I get the intuition behind the solution and </br>
+  I can break down problem into subproblems to create a recursive definition) But I still cannot implement performant solutions </br>
+  In particular, this problem requires using the **monotonic stack** technique, that I haven't found</br>
+  in CPHB</br>. And didn't know about beforehand.</br>
+  So, after I solve first 100 of hard problems, I should work on the optimization of my solutions. </br>
+  Submission details: https://leetcode.com/submissions/detail/214320084/</br>
 
 * **[2019-03-11]** [The Skyline Problem](https://leetcode.com/problems/the-skyline-problem/) </br>
   Overall, the idea is to not to spend time on tangential problems. For example, I've spent a lot of </br>
