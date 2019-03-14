@@ -23,13 +23,15 @@ package main
 
 type binary_tree_cameras_ struct {
 	_memoized map[*TreeNode]bool
+	_parentOf map[*TreeNode]*TreeNode
 }
 
 var binary_tree_cameras = binary_tree_cameras_{
 	_memoized: map[*TreeNode]bool{},
+	_parentOf: map[*TreeNode]*TreeNode{},
 }
 
-func (b *binary_tree_cameras_) Solve(p, t *TreeNode) bool {
+func (b *binary_tree_cameras_) Solve(t *TreeNode) bool {
 	res, ok := b._memoized[t]
 	if ok {
 		return res
@@ -40,12 +42,12 @@ func (b *binary_tree_cameras_) Solve(p, t *TreeNode) bool {
 		return false
 	}
 	if t.Left == nil {
-		res := !b.Solve(t, t.Right)
+		res := !b.Solve(t.Right)
 		b._memoized[t] = res
 		return res
 	}
 	if t.Right == nil {
-		res := !b.Solve(t, t.Left)
+		res := !b.Solve(t.Left)
 		b._memoized[t] = res
 		return res
 	}
@@ -56,6 +58,7 @@ func (b *binary_tree_cameras_) Solve(p, t *TreeNode) bool {
 	}
 	b._memoized[t] = false
 	return false
+
 }
 
 func (b *binary_tree_cameras_) BuildBinaryTreeFromSlice(k int, input []int) *TreeNode {
@@ -92,6 +95,17 @@ func (b *binary_tree_cameras_) CountNodes(root *TreeNode) int {
 	return 1 + b.CountNodes(root.Left) + b.CountNodes(root.Right)
 }
 
+func (b *binary_tree_cameras_) PatchSolution(parent, root *TreeNode) {
+	if root == nil {
+		return
+	}
+
+	res := !b._memoized[parent] && !b._memoized[root.Left] && !b._memoized[root.Right]
+	b._memoized[root] = res
+	b.PatchSolution(root, root.Left)
+	b.PatchSolution(root, root.Right)
+}
+
 func (b *binary_tree_cameras_) BuildSliceFromBinaryTreeRecursive(data []int, k int, root *TreeNode) {
 	if root == nil {
 		data[k] = -1
@@ -112,13 +126,13 @@ func (b *binary_tree_cameras_) BuildSliceFromBinaryTree(root *TreeNode) []int {
 }
 
 func minCameraCover(root *TreeNode) int {
-	binary_tree_cameras._memoized = map[*TreeNode]bool{}
-	// special case that I haven't thought about
-	if root.Left == nil && root.Right == nil {
-		return 1
-	}
 
+	binary_tree_cameras._memoized = map[*TreeNode]bool{}
 	binary_tree_cameras.Solve(root)
+
+	// patch those nodes where solution didn't get to
+	// (have no idea, whether it will work, though)
+	binary_tree_cameras.PatchSolution(nil, root)
 	count := 0
 	for _, a := range binary_tree_cameras._memoized {
 		if a == true {

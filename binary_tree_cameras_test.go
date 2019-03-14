@@ -30,6 +30,7 @@ func TestMinCameraCover(t *testing.T) {
 	assert.Equal(t, binary_tree_cameras.Solve(bt2.Left), true)
 	assert.Equal(t, binary_tree_cameras.Solve(bt2.Left.Right), false)
 	assert.Equal(t, binary_tree_cameras.Solve(bt2.Left.Left), false)
+	assert.Equal(t, binary_tree_cameras._memoized[nil], false)
 
 	assert.Equal(t, 2, minCameraCover(bt))
 	assert.Equal(t, 1, minCameraCover(bt2))
@@ -38,6 +39,8 @@ func TestMinCameraCover(t *testing.T) {
 
 	bt4 := ntn(0, ntn(0, nil, nil), ntn(0, nil, ntn(0, nil, nil)))
 	assert.Equal(t, minCameraCover(bt4), 2)
+	// [0,null,0,0,0,null,null,null,0]
+	// bt5 := ntn(0,nil,ntn(0,ntn(0,)
 }
 
 func BenchmarkMinCameraCover(t *testing.B) {
@@ -46,6 +49,6 @@ func BenchmarkMinCameraCover(t *testing.B) {
 	}
 	bt := ntn(0, ntn(0, ntn(0, ntn(0, nil, ntn(0, nil, nil)), nil), nil), nil)
 	for n := 0; n < t.N; n++ {
-		binary_tree_cameras.Solve(bt)
+		minCameraCover(bt)
 	}
 }
