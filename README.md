@@ -11,13 +11,20 @@ TODO:
 * https://leetcode.com/problems/recover-binary-search-tree/  
 * https://leetcode.com/problems/sum-of-distances-in-tree/
 * https://leetcode.com/problems/binary-tree-cameras/
-* https://leetcode.com/problems/odd-even-jump/
 * https://leetcode.com/problems/substring-with-concatenation-of-all-words/
 * https://leetcode.com/problems/maximal-rectangle/
 * https://leetcode.com/problems/longest-increasing-path-in-a-matrix/
 
 This is a Leet log. A log of Leetcode problems and their solutions done by me, </br>
 in reverse chronological order. </br>
+
+**Useful commands**
+
+```shell
+go test
+go test -run TestMinCameraCover
+go test -bench BenchmarkMinCameraCover
+```
 
 </br>
 
