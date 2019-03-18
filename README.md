@@ -28,6 +28,13 @@ go test -bench BenchmarkMinCameraCover
 
 </br>
 
+* **[2019-03-18]** [Binary Tree Cameras](https://leetcode.com/problems/binary-tree-cameras/)</br>
+  Was sick this week, so, didn't add solutions. Now I am continuing working on these things.  </br>
+  It took me ~3 hours to think up and code a solution for this problem. </br>
+  Still, I am in the bottom of submissions (64 ms against 6 ms). But, at least, I have this thing solved. </br>
+  Later, when I solve all of the hard ones, I will work on optimizations. 
+  Submission details: https://leetcode.com/submissions/detail/215779712/
+  
 * **[2019-03-12]** [Odd even jump](https://leetcode.com/problems/odd-even-jump/)</br>
   I am able to implement naive DP solutions. (Meaning I get the intuition behind the solution and </br>
   I can break down problem into subproblems to create a recursive definition) But I still cannot implement performant solutions </br>

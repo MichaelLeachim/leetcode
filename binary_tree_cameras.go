@@ -8,54 +8,112 @@ package main
 
 // Solving: https://leetcode.com/problems/binary-tree-cameras/
 
-// When we **have to** add camera to a node?
-//   if parent has camera, then none
+// For root node, check amount of colored children if the root is colored and if the root is uncolored. Choose minimum
+// Node **must be colored** when not parent nor any child is colored
+// Can we simplify? Node must be colored when parent is not colored? No
+// Another approach:
+// * We either color given node or not, unless we must.
+// * We must color the node, when parent node is uncolored and children nodes are not colored.
+// * We choose to color or not to, based on score (amount of colored nodes) down the tree
 
-//   when parent have no camera and none of its children have camera
-//   when none of its children exist:
-//     if parent has camera, then none, otherwise yes
-//
-//   when one of its children does not exist, then, the reverse
-//   add camera.
-
-// When none of the surroundings has camera
-// When there are no surroundings, then true
+// Solve(node, parentColored?) =>
+//  if (node == nil) {
+//    if parentColored? return 0,false
+//    else              return 1,true
+//  }
+//  when_self_colored,child_colored? := Solve(node.Left,true) + Solve(node.Right,true)
+//  when_self_not_colored,any_child_colored? := Solve(node.fLeft,false) + Solve(node.Right,false)
+//  reso := min(when_self_colored+1,when_self_not_colored)
+//  must color item, cannot avoid
+//  if not any_child_colored? and not parentColored?:
+//    return when_self_colored+1
+//  return amount,true
 
 type binary_tree_cameras_ struct {
-	_memoized map[*TreeNode]bool
+	_memoized_if_true  map[*TreeNode][2]int
+	_memoized_if_false map[*TreeNode][2]int
 }
 
 var binary_tree_cameras = binary_tree_cameras_{
-	_memoized: map[*TreeNode]bool{},
+	_memoized_if_true:  map[*TreeNode][2]int{},
+	_memoized_if_false: map[*TreeNode][2]int{},
 }
 
-func (b *binary_tree_cameras_) Solve(t *TreeNode) bool {
-	res, ok := b._memoized[t]
+func (b *binary_tree_cameras_) memoize(node *TreeNode, parentColored bool, count int, isColored bool) {
+	isColoredInt := -1
+	if isColored {
+		isColoredInt = 1
+	}
+
+	if parentColored {
+		b._memoized_if_true[node] = [2]int{isColoredInt, count}
+		return
+	}
+	b._memoized_if_false[node] = [2]int{isColoredInt, count}
+}
+
+func (b *binary_tree_cameras_) unmemoize(node *TreeNode, parentColored bool) (bool, int, bool) {
+	var res [2]int
+	var ok bool
+
+	if parentColored {
+		res, ok = b._memoized_if_true[node]
+	} else {
+		res, ok = b._memoized_if_false[node]
+	}
+
+	if !ok {
+		return false, -1, false
+	}
+
+	is_colored_int, count := res[0], res[1]
+	is_colored := false
+	if is_colored_int == 1 {
+		is_colored = true
+	}
+	return true, count, is_colored
+
+}
+
+func (b *binary_tree_cameras_) Solve(t *TreeNode, parentColored bool) (int, bool) {
+	ok, result, result2 := b.unmemoize(t, parentColored)
 	if ok {
-		return res
+		return result, result2
 	}
 
+	if t == nil {
+		return 0, false
+	}
+	// if leaf
 	if t.Left == nil && t.Right == nil {
-		b._memoized[t] = false
-		return false
-	}
-	if t.Left == nil {
-		res := !b.Solve(t.Right)
-		b._memoized[t] = res
-		return res
-	}
-	if t.Right == nil {
-		res := !b.Solve(t.Left)
-		b._memoized[t] = res
-		return res
+		if parentColored {
+			return 0, false
+		}
+		return 1, true
 	}
 
-	if b.Solve(t.Left) == false && b.Solve(t.Right) == false {
-		b._memoized[t] = true
-		return true
+	self_colored_node_left, _ := b.Solve(t.Left, true)
+	self_colored_node_rigt, _ := b.Solve(t.Right, true)
+	self_colored_node_score := self_colored_node_left + self_colored_node_rigt
+
+	self_uncolored_node_left, is_child_colored_left := b.Solve(t.Left, false)
+	self_uncolored_node_rigt, is_child_colored_right := b.Solve(t.Right, false)
+	self_uncolored_node_score := self_uncolored_node_left + self_uncolored_node_rigt
+
+	// node should be colored by the score
+	if self_colored_node_score < self_uncolored_node_score {
+		b.memoize(t, parentColored, self_colored_node_score+1, true)
+		return self_colored_node_score + 1, true
 	}
-	b._memoized[t] = false
-	return false
+
+	// !(false || true || true)
+	// node should be colored by the rules
+	if (parentColored || is_child_colored_left || is_child_colored_right) == false {
+		b.memoize(t, parentColored, self_colored_node_score+1, true)
+		return self_colored_node_score + 1, true
+	}
+	b.memoize(t, parentColored, self_uncolored_node_score, false)
+	return self_uncolored_node_score, false
 
 }
 
@@ -68,17 +126,7 @@ func (b *binary_tree_cameras_) CountNodes(root *TreeNode) int {
 
 func minCameraCover(root *TreeNode) int {
 
-	binary_tree_cameras._memoized = map[*TreeNode]bool{}
-	binary_tree_cameras.Solve(root)
-
-	// patch those nodes where solution didn't get to
-	// (have no idea, whether it will work, though)
-	count := 0
-	for _, a := range binary_tree_cameras._memoized {
-		if a == true {
-			count += 1
-		}
-
-	}
-	return count
+	// binary_tree_cameras._memoized = map[*TreeNode]bool{}
+	res, _ := binary_tree_cameras.Solve(root, false)
+	return res
 }
