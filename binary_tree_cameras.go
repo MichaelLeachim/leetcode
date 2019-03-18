@@ -75,6 +75,63 @@ func (b *binary_tree_cameras_) unmemoize(node *TreeNode, parentColored bool) (bo
 
 }
 
+func (b *binary_tree_cameras_) tts(t *TreeNode) []*TreeNode {
+	if t == nil {
+		return []*TreeNode{}
+	}
+	return append(append([]*TreeNode{t}, b.tts(t.Left)...), b.tts(t.Right)...)
+}
+
+func (b *binary_tree_cameras_) SolveIterative(t *TreeNode) int {
+	nodes := b.tts(t)
+	solution := make([]int, len(nodes))
+	binsol := make([]bool, len(nodes))
+
+	for pos, t := range nodes {
+		if t == nil {
+			solution[pos] = 0
+			binsol[pos] = false
+			continue
+		}
+
+		// if leaf
+		if t.Left == nil && t.Right == nil {
+			if binsol[pos-1] {
+				solution[pos] = 0
+				binsol[pos] = false
+				continue
+			}
+			solution[pos] = 1
+			binsol[pos] = true
+			continue
+		}
+	}
+
+	self_colored_node_left, _ := b.Solve(t.Left, true)
+	self_colored_node_rigt, _ := b.Solve(t.Right, true)
+	self_colored_node_score := self_colored_node_left + self_colored_node_rigt
+
+	self_uncolored_node_left, is_child_colored_left := b.Solve(t.Left, false)
+	self_uncolored_node_rigt, is_child_colored_right := b.Solve(t.Right, false)
+	self_uncolored_node_score := self_uncolored_node_left + self_uncolored_node_rigt
+
+	// node should be colored by the score
+	if self_colored_node_score < self_uncolored_node_score {
+		b.memoize(t, parentColored, self_colored_node_score+1, true)
+		return self_colored_node_score + 1, true
+	}
+
+	// !(false || true || true)
+	// node should be colored by the rules
+	if (parentColored || is_child_colored_left || is_child_colored_right) == false {
+		b.memoize(t, parentColored, self_colored_node_score+1, true)
+		return self_colored_node_score + 1, true
+	}
+	b.memoize(t, parentColored, self_uncolored_node_score, false)
+	return self_uncolored_node_score, false
+
+}
+
 func (b *binary_tree_cameras_) Solve(t *TreeNode, parentColored bool) (int, bool) {
 	ok, result, result2 := b.unmemoize(t, parentColored)
 	if ok {
