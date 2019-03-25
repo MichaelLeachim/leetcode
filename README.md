@@ -31,6 +31,13 @@ go test -bench BenchmarkMinCameraCover
 
 </br>
 
+* **[2019-03-25]** [Maximal rectangle](https://leetcode.com/problems/maximal-rectangle/)</br>
+  It is the first problem, which I solved by iteration, not by recursion. </br>
+  I am still in the bottom 25% by time efficiency. So, here is that</br>
+  But, at least, I am learning now how to make it work. Overall, solving this problem </br>
+  took me ~3 hours of deep thinking</br>
+  Submission details: https://leetcode.com/submissions/detail/217529915/
+
 * **[2019-03-18]** [Binary Tree Cameras](https://leetcode.com/problems/binary-tree-cameras/)</br>
   Was sick this week, so, didn't add solutions. Now I am continuing working on these things.  </br>
   It took me ~3 hours to think up and code a solution for this problem. </br>
