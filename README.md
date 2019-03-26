@@ -36,6 +36,7 @@ go test -bench BenchmarkMinCameraCover
   I am still in the bottom 25% by time efficiency. So, here is that</br>
   But, at least, I am learning now how to make it work. Overall, solving this problem </br>
   took me ~3 hours of deep thinking</br>
+  I am not reading top </br>
   Submission details: https://leetcode.com/submissions/detail/217529915/
 
 * **[2019-03-18]** [Binary Tree Cameras](https://leetcode.com/problems/binary-tree-cameras/)</br>
