@@ -12,12 +12,28 @@ import (
 	"testing"
 )
 
-func TestMinWindow(t *testing.T) {
-	assert.Equal(t, minWindow("ADOBECODEBANC", "ABC"), "BANC")
-	assert.Equal(t, minWindow("ADOBECBA", "ABC"), "CBA")
+func TestMinWindowFailingCase(t *testing.T) {
+	assert.Equal(t, "A", minWindow("A", "A"))
 
-	assert.Equal(t, minWindow("CACACACA", "C"), "")
-	assert.Equal(t, minWindow("BBBBBBBBBBBBBBBBBB", "AAA"), "")
-	assert.Equal(t, minWindow("ABBABBAABBBBB", "A"), "")
+}
+
+func TestMinWindow(t *testing.T) {
+	assert.Equal(t, "BANC", minWindow("ADOBECODEBANC", "ABC"))
+	assert.Equal(t, "CBA", minWindow("ADOBECBA", "ABC"))
+
+	assert.Equal(t, "C", minWindow("CACACACA", "C"))
+	assert.Equal(t, "", minWindow("BBBBBBBBBBBBBBBBBB", "AAA"))
+	assert.Equal(t, "A", minWindow("ABBABBAABBBBB", "A"))
+
+	assert.Equal(t, "AA", minWindow("AA", "AA"))
+	assert.Equal(t, "aaa", minWindow("aaa", "aaa"))
+	assert.Equal(t, "a", minWindow("aaa", "a"))
+	assert.Equal(t, "aa", minWindow("aaa", "aa"))
+
+	assert.Equal(t, "aba", minWindow("abbbaaababa", "aba"))
+
+	assert.Equal(t, "A", minWindow("A", "A"))
+	assert.Equal(t, "", minWindow("", "A"))
+	assert.Equal(t, "", minWindow("", ""))
 
 }

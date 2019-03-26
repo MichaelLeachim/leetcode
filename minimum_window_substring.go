@@ -6,8 +6,9 @@
 // @@@@@@ At 2019-03-26 15:41 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
 package main
 
+import ()
+
 // Solving: https://leetcode.com/problems/minimum-window-substring/
-// This problem does not look hard, just:
 // Have two pointers. Have one go through the S, if it sees EOL, break, if it sees symbol in T increment its counter, check
 // whether second pointer stays on this symbol. If it does, go forward decrementing each symbol in T counter, until it equals 0, then, continue from A
 // When decrementing or incrementing, if itemsappeared >= len(t) (means, all symbols are in place), check len of curiter. If it is smaller than the best, set best to curiter
@@ -22,67 +23,72 @@ package main
 // ADOBECBA   (left pointer)
 // ADOBE CBA  (has solution), best solution CBA
 
+// aaa aa
+//
+
 // When solution? when every letter in pattern appears at least once.
 
 func minWindow(s string, t string) string {
-	LEN_OF_PATTERN := len(t)
-	LEN_OF_INPUT := len(s)
-
-	curbest := []rune{}
-	curiter := []rune{}
-	metitem := map[rune]int{}
-	bestlen := LEN_OF_INPUT
+	LEN_OF_PATTERN, LEN_OF_INPUT := len(t), len(s)
 	itemsappeared := 0
+	metitem := map[rune]int{}
+	mustcount := map[rune]int{}
 	// initialize store
 	for _, rune := range t {
 		metitem[rune] = 0
+		mustcount[rune] += 1
 	}
-	nowright := true
-	leftp := 0
-	rightp := 0
-	for rightp < LEN_OF_INPUT-1 {
-		rsr := rune(s[rightp])
+	leftp, rightp, bestpatternlen := 0, 0, LEN_OF_INPUT+1
+	bestpattern, curpattern := []rune{}, []rune{}
+
+	for {
+		if leftp >= LEN_OF_INPUT {
+			break
+		}
 		rsl := rune(s[leftp])
-		if nowright {
-			if rsl == rsl && leftp != rightp {
-				nowright = !nowright
-			}
-			// advance right pointer
-			metcount, ok := metitem[rsr]
-			// letter is not a part of pattern
-			if !ok {
-				curiter = append(curiter, rsr)
-				rightp += 1
-				continue
-			} else {
-				// letter is a part of pattern
-				if metcount == 0 {
-					itemsappeared += 1
-				}
-				metitem[rsr] += 1
-			}
-		} else {
-			// advance left pointer
-			metcount, ok := metitem[rsl]
-			// letter is not a part of pattern
-			if !ok {
-				curiter = curiter[1:]
-				leftp += 1
-				continue
-			} else {
-				// letter is a part of pattern
-				metcount -= 1
-				metitem[rsl] = metcount
+		// if has solution, advance left
+		if itemsappeared == LEN_OF_PATTERN {
+			lcurpat := len(curpattern)
 
-				// when touches zero element
-				if metcount == 0 {
+			if lcurpat == LEN_OF_PATTERN {
+				return string(curpattern)
+			}
+			// bookkeep best pattern
+			if bestpatternlen > lcurpat {
+				bestpattern = curpattern
+				bestpatternlen = lcurpat
+			}
+			curpattern = curpattern[1:]
+			leftp += 1
+			c, ok := metitem[rsl]
+			if ok {
+				if c == mustcount[rsl] {
 					itemsappeared -= 1
-					nowright = !nowright
 				}
-
+				metitem[rsl] -= 1
 			}
+			continue
 		}
 
+		if rightp >= LEN_OF_INPUT {
+			break
+		}
+		rsr := rune(s[rightp])
+
+		// if has no solution, advance right
+		curpattern = append(curpattern, rsr)
+
+		// bookkeep solution
+		c, ok := metitem[rsr]
+		if ok {
+			if c == 0 {
+				itemsappeared += 1
+			}
+			metitem[rsr] += 1
+		}
+		rightp += 1
 	}
+
+	return string(bestpattern)
 
 }
