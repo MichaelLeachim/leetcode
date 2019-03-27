@@ -61,91 +61,91 @@ import (
 //    if it is in the pattern, decrement in pattern by one
 //
 // Recursive solution: Solution(baa) = Solution(ba) + a = {b:1,a:1} + a = {b:1,a:2}
+// Solution(x) = "A B C D E F G H", pattern = "C B D"
+//
 
 func minWindowPatternRecognition(s string, t string) bool {
 	dat := map[rune]int{}
 	for _, v := range t {
 		dat[v] += 1
 	}
+	best := ""
+
 	reso := 0
-	for _, v := range s {
+	for i, v := range s {
 		_, ok := dat[v]
 		if ok {
 			dat[v] -= 1
 			if dat[v] == 0 {
 				reso += 1
 			}
-
+		}
+		if reso == len(dat) {
+			if len(best) == 0 || len(best) > len(s[:i]) {
+				best = s[:i]
+			}
+			for i2, v := range s[:i] {
+				_, ok := dat[v]
+				if ok {
+					dat[v] += 1
+					if dat[v] == 0 {
+						reso -= 1
+					}
+				}
+				if reso != len(dat) {
+					log.Println("End: ", s[i2:i])
+					if len(best) == 0 || len(best) > len(s[i2:i]) {
+						best = s[i2:i]
+					}
+					break
+				}
+			}
+			// return true
 		}
 	}
-	log.Println(dat, reso)
-	return reso == len(dat)
+	log.Println(best)
+	return false
 }
 
 func minWindow(s string, t string) string {
-	_, LEN_OF_INPUT := len(t), len(s)
-	itemsappeared := 0
-	metitem := map[rune]int{}
-	mustcount := map[rune]int{}
-	// initialize store
-	for _, rune := range t {
-		metitem[rune] = 0
-		mustcount[rune] += 1
+	dat := map[rune]int{}
+	for _, v := range t {
+		dat[v] += 1
 	}
-	LEN_OF_PATTERN_UNIQUE := len(mustcount)
+	best := ""
 
-	leftp, rightp, bestpatternlen := 0, 0, LEN_OF_INPUT+1
-	bestpattern, curpattern := []rune{}, []rune{}
-
-	for leftp < LEN_OF_INPUT {
-		rsl := rune(s[leftp])
-		// if has solution, advance left
-		if itemsappeared == LEN_OF_PATTERN_UNIQUE {
-			log.Println(string(curpattern), t, itemsappeared)
-			lcurpat := len(curpattern)
-
-			// if lcurpat == LEN_OF_PATTERN {
-			// 	return string(curpattern)
-			// }
-			// bookkeep best pattern
-			if bestpatternlen > lcurpat {
-				bestpattern = curpattern
-				bestpatternlen = lcurpat
-			}
-			if len(curpattern) != 0 {
-				curpattern = curpattern[1:]
-			}
-
-			leftp += 1
-			c, ok := metitem[rsl]
-			if ok {
-				if c == mustcount[rsl] {
-					itemsappeared -= 1
-				}
-				metitem[rsl] -= 1
-			}
-			continue
-		}
-
-		if rightp >= LEN_OF_INPUT {
-			break
-		}
-		rsr := rune(s[rightp])
-
-		// if has no solution, advance right
-		curpattern = append(curpattern, rsr)
-
-		// bookkeep solution
-		c, ok := metitem[rsr]
+	reso := 0
+	for i, v := range s {
+		_, ok := dat[v]
 		if ok {
-			if c == mustcount[rsl] {
-				itemsappeared += 1
+			dat[v] -= 1
+			if dat[v] == 0 {
+				reso += 1
 			}
-			metitem[rsr] += 1
 		}
-		rightp += 1
+		if reso == len(dat) {
+			if len(best) == 0 || len(best) > len(s[:i+1]) {
+				best = s[:i+1]
+			}
+			for i2, v := range s[:i+1] {
+				_, ok := dat[v]
+				if ok {
+					dat[v] += 1
+					if dat[v] == 0 {
+						reso -= 1
+					}
+				}
+				if reso != len(dat) {
+					log.Println("End: ", s[i2:i+1])
+					if len(best) == 0 || len(best) > len(s[i2:i+1]) {
+						best = s[i2 : i+1]
+					}
+					break
+				}
+			}
+			// return true
+		}
 	}
-
-	return string(bestpattern)
+	return best
 
 }

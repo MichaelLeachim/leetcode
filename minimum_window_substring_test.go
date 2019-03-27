@@ -18,10 +18,13 @@ func TestMinWindowPatternRecognition(t *testing.T) {
 	assert.Equal(t, true, minWindowPatternRecognition("bbbaaaa", "ab"))
 	assert.Equal(t, false, minWindowPatternRecognition("ab", "aaabbbb"))
 
+	assert.Equal(t, true, minWindowPatternRecognition("zaaz", "aa"))
+
 	assert.Equal(t, true, minWindowPatternRecognition("ba", "ab"))
 	assert.Equal(t, true, minWindowPatternRecognition("baa", "aab"))
 	assert.Equal(t, true, minWindowPatternRecognition("baaaaaaaaaaaaaaaaaaaa", "aab"))
 	assert.Equal(t, false, minWindowPatternRecognition("baaaaaaaaaaaaaaaaaaaaz", "aabzz"))
+	assert.Equal(t, true, minWindowPatternRecognition("aazaa", "aa"))
 
 }
 
