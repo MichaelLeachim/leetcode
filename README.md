@@ -15,8 +15,6 @@ TODO:
 * https://leetcode.com/problems/maximal-rectangle/
 * https://leetcode.com/problems/longest-increasing-path-in-a-matrix/
 
-TODO:
-* Implement solution for https://leetcode.com/problems/binary-tree-cameras/ iteratively
 
 This is a Leet log. A log of Leetcode problems and their solutions done by me, </br>
 in reverse chronological order. </br>
@@ -30,6 +28,19 @@ go test -bench BenchmarkMinCameraCover
 ```
 
 </br>
+
+* **[2019-03-27]** [Minimum window substring](https://leetcode.com/problems/minimum-window-substring/)</br>
+  Well, this one was hard AF (well, as almost all problems submitted by leetcode).</br>
+  The most difficult thing was to figure out how to check for pattern incrementally and fast</br>
+  For the pattern with the unique letters the counting problem is trivial. But, for pattern with repeating letters it is hard</br>
+  The most annoying and difficult thing is to figure out and debug this stuff. </br>
+  On the plus side, it is the first my  solution where I am faster than 78% of submitted solutions. </br>
+  And this freaking thing got 268 test cases! </br>
+  In the end, I've given up debugging 60 lines of a total mess and wrote a nice object oriented, decomplected iterator and tested each part of </br>
+  functionality seprately </br>
+  So, it may be worth a look. </br>
+  Anyway, here are submission details:</br>
+  Submission details: https://leetcode.com/submissions/detail/218058420/</br>
 
 * **[2019-03-25]** [Maximal rectangle](https://leetcode.com/problems/maximal-rectangle/)</br>
   It is the first problem, which I solved by iteration, not by recursion. </br>

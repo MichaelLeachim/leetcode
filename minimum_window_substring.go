@@ -6,10 +6,6 @@
 // @@@@@@ At 2019-03-26 15:41 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
 package main
 
-import (
-	"log"
-)
-
 // Solving: https://leetcode.com/problems/minimum-window-substring/
 // Have two pointers. Have one go through the S, if it sees EOL, break, if it sees symbol in T increment its counter, check
 // whether second pointer stays on this symbol. If it does, go forward decrementing each symbol in T counter, until it equals 0, then, continue from A
@@ -41,111 +37,103 @@ import (
 // But, we can mainain a set of 1|0 matches, and its length equals length of unique items in input
 // When do we flip the switch? when item length equal amount of this item on input
 
-// But, if pattern is not unique?
-// aab, aabb a  a2|b1 = 2
-// Well, we can do similar thing:
-//   calculate unique letters in pattern [a,b]
-//   calculate amount each letter appears in pattern [a|2,b|1]
-//   decrement counter by one, when the amount is lower, than the amount of this letter in a pattern
-//   increment counter, by one, when amount is higher than the amount of this letter in a pattern
-
-// aab, aabb
-// solution(aab) = solution(aab)[a|2 b|1] + b
-
-// Naive solution:
-//  for every letter in curinput
-//    for every match, increment match by one.
-//    if match equals amount in pattern, increment sum
-//    if match more than amount in pattern, do nothing
-//
-//    if it is in the pattern, decrement in pattern by one
-//
-// Recursive solution: Solution(baa) = Solution(ba) + a = {b:1,a:1} + a = {b:1,a:2}
-// Solution(x) = "A B C D E F G H", pattern = "C B D"
-//
-
-func minWindowPatternRecognition(s string, t string) bool {
-	dat := map[rune]int{}
-	for _, v := range t {
-		dat[v] += 1
-	}
-	best := ""
-
-	reso := 0
-	for i, v := range s {
-		_, ok := dat[v]
-		if ok {
-			dat[v] -= 1
-			if dat[v] == 0 {
-				reso += 1
-			}
-		}
-		if reso == len(dat) {
-			if len(best) == 0 || len(best) > len(s[:i]) {
-				best = s[:i]
-			}
-			for i2, v := range s[:i] {
-				_, ok := dat[v]
-				if ok {
-					dat[v] += 1
-					if dat[v] == 0 {
-						reso -= 1
-					}
-				}
-				if reso != len(dat) {
-					log.Println("End: ", s[i2:i])
-					if len(best) == 0 || len(best) > len(s[i2:i]) {
-						best = s[i2:i]
-					}
-					break
-				}
-			}
-			// return true
-		}
-	}
-	log.Println(best)
-	return false
+// efficiently answers to the question whether current input contains pattern
+// whether it will contain that pattern when increment a letter
+// whether it will contain that pattern when decrement a letter
+type minimumWindowSubstringIterator struct {
+	_datum    map[rune]int
+	_counter  int
+	_lendatum int
 }
 
-func minWindow(s string, t string) string {
-	dat := map[rune]int{}
-	for _, v := range t {
-		dat[v] += 1
+func newMinimumWindowSubstringIterator(pattern string) *minimumWindowSubstringIterator {
+	result := map[rune]int{}
+	for _, v := range pattern {
+		result[v] += 1
 	}
-	best := ""
+	return &minimumWindowSubstringIterator{_datum: result, _counter: 0, _lendatum: len(result)}
+}
 
-	reso := 0
-	for i, v := range s {
-		_, ok := dat[v]
-		if ok {
-			dat[v] -= 1
-			if dat[v] == 0 {
-				reso += 1
+func (m *minimumWindowSubstringIterator) dec(a rune) bool {
+
+	_, ok := m._datum[a]
+	if !ok {
+		return m.stat()
+	}
+
+	if m._datum[a] == 0 {
+		m._counter -= 1
+	}
+	m._datum[a] += 1
+	return m.stat()
+
+}
+func (m *minimumWindowSubstringIterator) stat() bool {
+	return m._lendatum == m._counter
+}
+
+func (m *minimumWindowSubstringIterator) incString(a string) bool {
+	for _, v := range a {
+		m.inc(v)
+	}
+	return m.stat()
+}
+func (m *minimumWindowSubstringIterator) decString(a string) bool {
+	for _, v := range a {
+		m.dec(v)
+	}
+	return m.stat()
+}
+
+func (m *minimumWindowSubstringIterator) incStringP(a string) *minimumWindowSubstringIterator {
+	m.incString(a)
+	return m
+}
+func (m *minimumWindowSubstringIterator) decStringP(a string) *minimumWindowSubstringIterator {
+	m.decString(a)
+	return m
+}
+
+func (m *minimumWindowSubstringIterator) inc(a rune) bool {
+	_, ok := m._datum[a]
+	if !ok {
+		return m.stat()
+	}
+	m._datum[a] -= 1
+	if m._datum[a] == 0 {
+		m._counter += 1
+	}
+	return m.stat()
+}
+
+// While no solution, move right pointer to the right.
+// While solution, move left pointer to the left
+func minWindow(s string, t string) string {
+	if len(t) == 0 || len(s) == 0 {
+		return ""
+	}
+	leftp := 0
+	rightp := 0
+	best := ""
+	b := newMinimumWindowSubstringIterator(t)
+	for {
+		if b.stat() {
+			// set up best solution
+			if len(best) == 0 || rightp-leftp < len(best) {
+				best = s[leftp:rightp]
 			}
+			if len(best) == len(t) {
+				return best
+			}
+			b.dec(rune(s[leftp]))
+			leftp += 1
+			continue
 		}
-		if reso == len(dat) {
-			if len(best) == 0 || len(best) > len(s[:i+1]) {
-				best = s[:i+1]
-			}
-			for i2, v := range s[:i+1] {
-				_, ok := dat[v]
-				if ok {
-					dat[v] += 1
-					if dat[v] == 0 {
-						reso -= 1
-					}
-				}
-				if reso != len(dat) {
-					log.Println("End: ", s[i2:i+1])
-					if len(best) == 0 || len(best) > len(s[i2:i+1]) {
-						best = s[i2 : i+1]
-					}
-					break
-				}
-			}
-			// return true
+		if rightp >= len(s) {
+			break
 		}
+		b.inc(rune(s[rightp]))
+		rightp += 1
 	}
 	return best
-
 }

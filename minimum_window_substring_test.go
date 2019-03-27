@@ -12,19 +12,48 @@ import (
 	"testing"
 )
 
-func TestMinWindowPatternRecognition(t *testing.T) {
-	assert.Equal(t, true, minWindowPatternRecognition("babzaa", "aab"))
+func TestMinWindowIncrementDecrementSolution(t *testing.T) {
+	b := newMinimumWindowSubstringIterator
 
-	assert.Equal(t, true, minWindowPatternRecognition("bbbaaaa", "ab"))
-	assert.Equal(t, false, minWindowPatternRecognition("ab", "aaabbbb"))
+	// test incrementing
+	assert.Equal(t, false, b("aab").stat())
+	assert.Equal(t, false, b("aab").incString("a"))
+	assert.Equal(t, false, b("aab").incString("aa"))
+	assert.Equal(t, true, b("aab").incString("aab"))
 
-	assert.Equal(t, true, minWindowPatternRecognition("zaaz", "aa"))
+	assert.Equal(t, true, b("aab").incString("babzaa"))
+	assert.Equal(t, true, b("ab").incString("bbbaaaa"))
+	assert.Equal(t, true, b("ab").incString("aaabbbb"))
+	assert.Equal(t, true, b("aa").incString("zaaz"))
+	assert.Equal(t, true, b("").incString("zaaz"))
 
-	assert.Equal(t, true, minWindowPatternRecognition("ba", "ab"))
-	assert.Equal(t, true, minWindowPatternRecognition("baa", "aab"))
-	assert.Equal(t, true, minWindowPatternRecognition("baaaaaaaaaaaaaaaaaaaa", "aab"))
-	assert.Equal(t, false, minWindowPatternRecognition("baaaaaaaaaaaaaaaaaaaaz", "aabzz"))
-	assert.Equal(t, true, minWindowPatternRecognition("aazaa", "aa"))
+	assert.Equal(t, true, b("ba").incString("ab"))
+	assert.Equal(t, true, b("baa").incString("aab"))
+	assert.Equal(t, true, b("aab").incString("baaaaaaaaaaaaaaaaaaaa"))
+	assert.Equal(t, false, b("baaaaaaaaaaaaaaaaaaaa").incString("aab"))
+
+	assert.Equal(t, false, b("baaaaaaaaaaaaaaaaaaaaz").incString("aabzz"))
+	assert.Equal(t, true, b("aa").incString("aazaa"))
+
+	// test decrementing
+	assert.Equal(t, true, b("abc").incString("adobecodebanc"))
+	assert.Equal(t, true, b("abc").incStringP("adobecodebanc").decString("adobecode"))
+	assert.Equal(t, false, b("abc").incStringP("adobecodebanc").decString("adobecodeb"))
+	assert.Equal(t, true, b("abc").incStringP("adobecodebanc").decString("odebanc"))
+	assert.Equal(t, false, b("abc").incStringP("adobecodebanc").decString("codebanc"))
+
+	x := b("aab")
+	x.incString("babzaa")
+	assert.Equal(t, x.stat(), true)
+	assert.Equal(t, true, x.decString("a"))
+	assert.Equal(t, false, x.decString("a"))
+	assert.Equal(t, true, x.incString("a"))
+	assert.Equal(t, true, x.decString("b"))
+	assert.Equal(t, false, x.decString("b"))
+
+	assert.Equal(t, true, b("aab").incString("baa"))
+	assert.Equal(t, b("aab").incStringP("baa")._datum, map[int32]int{97: 0, 98: 0})
+	assert.Equal(t, false, b("aab").incStringP("baa").decString("a"))
 
 }
 
@@ -50,7 +79,7 @@ func TestMinWindow(t *testing.T) {
 
 	assert.Equal(t, "aabb", minWindow("zaabbb", "aabb"))
 
-	assert.Equal(t, "aba", minWindow("abbbaaababa", "aba"))
+	assert.Equal(t, "baa", minWindow("abbbaaababa", "aba"))
 
 	assert.Equal(t, "", minWindow("abb", "aba"))
 
@@ -65,4 +94,10 @@ func TestMinWindow(t *testing.T) {
 	assert.Equal(t, "aa", minWindow("aazaa", "aa"))
 	assert.Equal(t, "abza", minWindow("babzaa", "aab"))
 
+}
+
+func BenchmarkMinWindow(t *testing.B) {
+	for n := 0; n < t.N; n++ {
+		minWindow("ADOBECODEBANC", "ABC")
+	}
 }
