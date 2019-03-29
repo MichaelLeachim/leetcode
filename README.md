@@ -10,10 +10,9 @@ TODO:
 * [10 minute problem, for starting out] https://leetcode.com/problems/number-of-1-bits/
 * https://leetcode.com/problems/recover-binary-search-tree/  
 * https://leetcode.com/problems/sum-of-distances-in-tree/
-* https://leetcode.com/problems/binary-tree-cameras/
 * https://leetcode.com/problems/substring-with-concatenation-of-all-words/
-* https://leetcode.com/problems/maximal-rectangle/
 * https://leetcode.com/problems/longest-increasing-path-in-a-matrix/
+* https://leetcode.com/problems/numbers-with-repeated-digits/
 
 
 This is a Leet log. A log of Leetcode problems and their solutions done by me, </br>
