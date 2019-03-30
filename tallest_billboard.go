@@ -6,7 +6,9 @@
 // @@@@@@ At 2019-03-28 07:07 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
 package main
 
-import ()
+import (
+	"sort"
+)
 
 // Solving: https://leetcode.com/problems/tallest-billboard/
 // [1,2,3,6] => {1,2,3} {6}
@@ -50,21 +52,34 @@ import ()
 // {2,1,2}{0} {1,2}{2} {2,2}{1} {2}{2,1} {1,2}{} {2}{1}
 // {2,1}{2} {1}{2,2} {2}{1,2} {}{2,1,2} {1}{2} {}{1,2} {2}{} {}{2}
 
+// how to optimize?
+// We don't need(?) to store both sides.
+// solution(1,2,3,4,5) =
+//   {1,2,3,5,6,4,7,9,10,5,9...}
+
+/// 1,2,3
+//  solution(X) = for every solution(X-1) as sol:
+//                  add X to it. if it contains within prev solutions, it is in best, otherwize, add it
+//                if X within prev sums, it is in best
+
 func tallestBillboard(rods []int) int {
 	solution := [][2]int{}
 	nodup := map[[2]int]bool{}
+	sort.Ints(rods)
 
 	// performant append
 
-	nda := func(sol [2]int) {
+	nda := func(ssl [][2]int, sol [2]int) [][2]int {
 		if !nodup[sol] {
-			solution = append(solution, sol)
+			return append(ssl, sol)
 			nodup[sol] = true
 		}
+		return ssl
 	}
 
 	best := 0
 	for _, rod := range rods {
+		tempsol := [][2]int{[2]int{0, rod}, [2]int{rod, 0}}
 		for _, item := range solution {
 			left, right := item[0], item[1]
 			rr, lr := right+rod, left+rod
@@ -74,15 +89,10 @@ func tallestBillboard(rods []int) int {
 			if lr == right && right > best {
 				best = right
 			}
-			if rr <= 2500 {
-				nda([2]int{left, rr})
-			}
-			if lr <= 2500 {
-				nda([2]int{lr, right})
-			}
+			tempsol = nda(tempsol, [2]int{left, rr})
+			tempsol = nda(tempsol, [2]int{lr, right})
 		}
-		nda([2]int{0, rod})
-		nda([2]int{rod, 0})
+		solution = tempsol
 	}
 	return best
 
