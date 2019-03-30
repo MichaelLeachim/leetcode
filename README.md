@@ -28,6 +28,13 @@ go test -bench BenchmarkMinCameraCover
 
 </br>
 
+* **[2019-03-30]** [Talles billboard](https://leetcode.com/problems/tallest-billboard/)</br>
+  ~10 hours and more, three days,  and five approaches later,  finally, solved it only to be in the bottom 5% of efficiency!</br>
+  And this is for topic that I somewhat already familiar with. </br>
+  One year won't be enough for me to prepare for an interview. </br>
+  But, nonetheless, the solution was accepted, so I move on:</br>
+  Submission details: https://leetcode.com/submissions/detail/218703638/</br>
+  
 * **[2019-03-27]** [Minimum window substring](https://leetcode.com/problems/minimum-window-substring/)</br>
   Well, this one was hard AF (well, as almost all problems submitted by leetcode).</br>
   The most difficult thing was to figure out how to check for pattern incrementally and fast</br>

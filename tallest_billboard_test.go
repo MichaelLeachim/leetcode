@@ -13,7 +13,10 @@ import (
 )
 
 func TestTallestBillboardFailingCases(t *testing.T) {
-
+	assert.Equal(t, 1, tallestBillboard([]int{17, 1, 1}))
+	assert.Equal(t, 5, tallestBillboard([]int{17, 4, 1, 2, 3}))
+	assert.Equal(t, 3, tallestBillboard([]int{1, 2, 3}))
+	//
 	assert.Equal(t, 11, tallestBillboard([]int{5, 5, 1, 1, 1, 5, 5}))
 
 	assert.Equal(t, 10, tallestBillboard([]int{5, 5, 1, 5, 5}))
@@ -39,6 +42,8 @@ func TestTallestBillboardFailingCases(t *testing.T) {
 
 }
 func TestTallestBillboard(t *testing.T) {
+	assert.Equal(t, 0, tallestBillboard([]int{}))
+	assert.Equal(t, 10, tallestBillboard([]int{10, 10}))
 	assert.Equal(t, 0, tallestBillboard([]int{1, 2}))
 
 	assert.Equal(t, 6, tallestBillboard([]int{1, 2, 3, 6}))
@@ -46,7 +51,11 @@ func TestTallestBillboard(t *testing.T) {
 	assert.Equal(t, 10, tallestBillboard([]int{1, 2, 3, 4, 5, 6}))
 
 	assert.Equal(t, 3, tallestBillboard([]int{3, 3}))
+
 	assert.Equal(t, 5, tallestBillboard([]int{17, 4, 1, 2, 3}))
+	assert.Equal(t, 1, tallestBillboard([]int{17, 1, 1}))
+	assert.Equal(t, 5, tallestBillboard([]int{4, 1, 2, 3}))
+	assert.Equal(t, 5, tallestBillboard([]int{2, 3, 2, 3}))
 
 	assert.Equal(t, 3, tallestBillboard([]int{3, 3}))
 	assert.Equal(t, 9, tallestBillboard([]int{4, 5, 6, 3}))

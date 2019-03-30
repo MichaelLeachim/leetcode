@@ -7,7 +7,7 @@
 package main
 
 import (
-// "sort"
+	"sort"
 )
 
 // Solving: https://leetcode.com/problems/tallest-billboard/
@@ -15,6 +15,34 @@ import (
 // Find two largest sums that are equal (cannot reuse members)
 
 // solution(1) = {1} {}, {} {1}
+// solution(2) = solution(1) + 2 on left, solution(1) + 2 on right + empty solution
+// solution(2) = {1,2} {}, {2} {1},  {1} {2}, {} {1,2}  {2}{}, {}{2}
+// solution(3) = solution(2) + 3 on left, solution(2) + 3 on right
+// solution(3) = {1,2,3} {}, {2,3} {1},  {1,3} {2}, {3,3} {1,2}  {2,3}{}, {3}{2}
+//               {1,2} {3}, {2} {1,3},  {1} {2,3}, {} {1,2,3}  {2}{3}, {}{2,3} {3}{}, {},{3}
+
+// solution(1) = 1
+// solution(2) = 3, -1, 2
+// solution(3) = 6,2,5  0,-4,-1, 3
+// solution(6) = 12,8,11  6,2,5,9
+//               0,-4, e.t.c
+
+// 1,2,3
+// 1,1
+// 3,-1  3,3
+// 6,-4, 6,0 => 6/2 solution
+
+// 2 2
+// 2,2
+// 4,4, 4,0 => 4/2 solution
+
+// 1,1,1,1
+// solution(0) = [1,1], [1,-1]
+// solution(1) =
+// solution(2) = 3,1,1,-1, 1,-1,-1,-3
+// solution(3) = 4,2,2,0, 2,0,0,-2, 2,0,0,-2, 0,-2,-2,-4
+//
+
 // solution(2) = solution(1) + 2 on left, solution(1) + 2 on right + empty solution
 // solution(2) = {1,2} {}, {2} {1},  {1} {2}, {} {1,2}  {2}{}, {}{2}
 // solution(3) = solution(2) + 3 on left, solution(2) + 3 on right
@@ -53,8 +81,19 @@ import (
 //  * Solution, where best must be
 
 func tallestBillboard(rods []int) int {
-	solution := [][2]int{}
+	if len(rods) == 0 {
+		return 0
+	}
+	if len(rods) == 1 {
+		return 0
+	}
+	if len(rods) == 2 && rods[0] == rods[1] {
+		return rods[0]
+	}
+
+	sort.Ints(rods)
 	nodup := map[[2]int]bool{}
+	solution := [][2]int{[2]int{rods[0], rods[0]}}
 
 	// performant append
 	nda := func(sol [2]int) {
@@ -63,39 +102,43 @@ func tallestBillboard(rods []int) int {
 			nodup[sol] = true
 		}
 	}
+
 	sumarray := []int{rods[0]}
 	for i := 1; i < len(rods); i++ {
 		sumarray = append(sumarray, sumarray[i-1]+rods[i])
 	}
-	// maxsum := 0
-	// for _, rod := range rods {
-	// 	maxsum += rod
-	// }
-	// maxsum /= 2
+	maxsum := sumarray[len(rods)-1]
+	halfmaxsum := maxsum / 2
 
 	best := 0
-	for rodindex, rod := range rods {
+	for rodi := 1; rodi < len(rods); rodi++ {
 		lensol := len(solution)
+		rod := rods[rodi]
+		nda([2]int{rod, rod})
 		for i := 0; i < lensol; i++ {
-			left, right := solution[i][0], solution[i][1]
+			sum, diff := solution[i][0], solution[i][1]
+			if diff == 0 && sum/2 > best {
 
-			rr, lr := right+rod, left+rod
-			if rr == left && left > best {
-				best = left
+				best = sum / 2
+				if best >= halfmaxsum {
+					return halfmaxsum
+				}
 			}
-			if lr == right && right > best {
-				best = right
-			}
-			if rr <= sumarray[rodindex] {
-				nda([2]int{left, rr})
-			}
-			if lr <= sumarray[rodindex] {
-				nda([2]int{lr, right})
+			sumrod := sum + rod
+			if sumrod > sumarray[rodi-1] {
+				nda([2]int{sumrod, diff + rod})
+				nda([2]int{sumrod, diff - rod})
 			}
 		}
-		nda([2]int{0, rod})
-		nda([2]int{rod, 0})
 	}
+
+	for i := 0; i < len(solution); i++ {
+		sum, diff := solution[i][0], solution[i][1]
+		if diff == 0 && sum/2 > best {
+			best = sum / 2
+		}
+	}
+
 	return best
 
 }
