@@ -68,6 +68,8 @@ func TestTallestBillboard(t *testing.T) {
 	assert.Equal(t, 161, tallestBillboard([]int{1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25}))
 	assert.Equal(t, 1275, tallestBillboard([]int{137, 142, 161, 144, 160, 153, 141, 136, 131, 147, 155, 165, 140, 135, 172, 165, 166}))
 
+	assert.Equal(t, 1612, tallestBillboard([]int{221, 183, 216, 208, 214, 226, 188, 208, 194, 197, 205, 184, 204, 195, 208, 176, 173}))
+
 }
 
 func BenchmarkTallestBillboard(t *testing.B) {
@@ -79,5 +81,24 @@ func BenchmarkTallestBillboard(t *testing.B) {
 func BenchmarkTallestBillboard2(t *testing.B) {
 	for n := 0; n < t.N; n++ {
 		tallestBillboard([]int{137, 142, 161, 144, 160, 153, 141, 136, 131, 147, 155, 165, 140, 135, 172, 165, 166})
+	}
+}
+
+func BenchmarkTallestBillboard3(t *testing.B) {
+	for n := 0; n < t.N; n++ {
+		tallestBillboard([]int{221, 183, 216, 208, 214, 226, 188, 208, 194, 197, 205, 184, 204, 195, 208, 176, 173})
+	}
+}
+
+func BenchmarkHashMapIterate(t *testing.B) {
+	x := map[int]bool{}
+	for i := 0; i < 100; i++ {
+		x[i] = true
+	}
+	b := 0
+	for n := 0; n < t.N; n++ {
+		for v, _ := range x {
+			b += v
+		}
 	}
 }

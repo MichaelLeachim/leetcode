@@ -7,7 +7,7 @@
 package main
 
 import (
-	"sort"
+// "sort"
 )
 
 // Solving: https://leetcode.com/problems/tallest-billboard/
@@ -29,9 +29,13 @@ import (
 //  if left or right part is >2500, then there is no solution (by definition)
 //  TODO: think something more on it
 
+// solution(X) cannot be larger  (than sum of all up to X)/2
+
 // Several implementation details:
 //  * appending to a slice is a costly operation, we should initialize the slice of required size beforehand
 //  * storing data is a pain point, I am used to recursive implementation, iterative is hard for me
+
+//
 
 // How to make iterative implementation easier?
 //  have two slices, for left part and for the right part
@@ -43,29 +47,38 @@ import (
 //     append to result
 //     return result
 
-// Solution(X) = Solution(X-1), Solution(X-1) + right, Solution(X-1) + left
+// Solution(X) = max(Solution(X-1), Solution(X-1) + right, Solution(X-1) + left)
 // Okay, what solutions are guaranteed to not to converge?
-//
+//  * Solution, where left||right part is larger than the (sum of all)/2
+//  * Solution, where best must be
 
 func tallestBillboard(rods []int) int {
 	solution := [][2]int{}
 	nodup := map[[2]int]bool{}
-	sort.Ints(rods)
 
 	// performant append
-
 	nda := func(sol [2]int) {
 		if !nodup[sol] {
 			solution = append(solution, sol)
 			nodup[sol] = true
 		}
 	}
+	sumarray := []int{rods[0]}
+	for i := 1; i < len(rods); i++ {
+		sumarray = append(sumarray, sumarray[i-1]+rods[i])
+	}
+	// maxsum := 0
+	// for _, rod := range rods {
+	// 	maxsum += rod
+	// }
+	// maxsum /= 2
 
 	best := 0
-	for _, rod := range rods {
+	for rodindex, rod := range rods {
 		lensol := len(solution)
 		for i := 0; i < lensol; i++ {
 			left, right := solution[i][0], solution[i][1]
+
 			rr, lr := right+rod, left+rod
 			if rr == left && left > best {
 				best = left
@@ -73,8 +86,12 @@ func tallestBillboard(rods []int) int {
 			if lr == right && right > best {
 				best = right
 			}
-			nda([2]int{left, rr})
-			nda([2]int{lr, right})
+			if rr <= sumarray[rodindex] {
+				nda([2]int{left, rr})
+			}
+			if lr <= sumarray[rodindex] {
+				nda([2]int{lr, right})
+			}
 		}
 		nda([2]int{0, rod})
 		nda([2]int{rod, 0})
