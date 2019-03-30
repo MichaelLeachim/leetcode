@@ -7,7 +7,8 @@
 package main
 
 import (
-	"sort"
+	"log"
+	// "sort"
 )
 
 // Solving: https://leetcode.com/problems/tallest-billboard/
@@ -63,36 +64,29 @@ import (
 //                if X within prev sums, it is in best
 
 func tallestBillboard(rods []int) int {
-	solution := [][2]int{}
-	nodup := map[[2]int]bool{}
-	sort.Ints(rods)
-
-	// performant append
-
-	nda := func(ssl [][2]int, sol [2]int) [][2]int {
-		if !nodup[sol] {
-			return append(ssl, sol)
-			nodup[sol] = true
-		}
-		return ssl
-	}
-
+	solution := map[int]bool{}
 	best := 0
-	for _, rod := range rods {
-		tempsol := [][2]int{[2]int{0, rod}, [2]int{rod, 0}}
-		for _, item := range solution {
-			left, right := item[0], item[1]
-			rr, lr := right+rod, left+rod
-			if rr == left && left > best {
-				best = left
+	// sort.Ints(rods)
+	for i := 0; i < len(rods); i++ {
+		rod := rods[i]
+
+		newsolslice := []int{}
+		for sol, _ := range solution {
+			newsol := sol + rod
+			metsol := solution[newsol]
+			if newsol > best && metsol {
+				best = newsol
 			}
-			if lr == right && right > best {
-				best = right
+			if !metsol {
+				newsolslice = append(newsolslice, newsol)
 			}
-			tempsol = nda(tempsol, [2]int{left, rr})
-			tempsol = nda(tempsol, [2]int{lr, right})
 		}
-		solution = tempsol
+		for _, newsol := range newsolslice {
+			solution[newsol] = true
+		}
+		solution[rod] = true
+		log.Println(rod, solution)
+
 	}
 	return best
 
