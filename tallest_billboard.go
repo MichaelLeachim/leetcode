@@ -43,6 +43,10 @@ import (
 //     append to result
 //     return result
 
+// Solution(X) = Solution(X-1), Solution(X-1) + right, Solution(X-1) + left
+// Okay, what solutions are guaranteed to not to converge?
+//
+
 func tallestBillboard(rods []int) int {
 	solution := [][2]int{}
 	nodup := map[[2]int]bool{}
