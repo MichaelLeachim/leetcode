@@ -6,6 +6,10 @@
 // @@@@@@ At 2019-03-31 08:52 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
 package main
 
+import (
+	"log"
+)
+
 // Solving: https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/
 
 // Problem definition:
@@ -108,14 +112,15 @@ func (b *best_time_to_buy_and_sell_stock_) MaxProfit(prices []int) ([][]int, int
 			right := maxmatrix[i][j]
 			lessbest := 0
 			for i1 := 0; i1 < i; i1++ {
-				for j1 := j; j1 < j; j1++ {
-					if lessbest < maxmatrix[i1][j1] {
+				for j1 := i1; j1 < j; j1++ {
+					if maxmatrix[i1][j1] > lessbest {
 						lessbest = maxmatrix[i1][j1]
 					}
 				}
 			}
 			if right+lessbest > best {
 				best = right + lessbest
+				log.Println(right, lessbest)
 			}
 		}
 	}
