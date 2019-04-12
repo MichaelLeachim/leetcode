@@ -29,6 +29,19 @@ go test -bench BenchmarkMinCameraCover
 
 </br>
 
+* **[2019-04-12]** 
+  Well, I am still have a long way to go for the larger company interview. Such problems are expected to </br>
+  be solved in less than 45 minutes. It took me ~5 hours to make it work. </br>
+  In the end, I've had a very silly but very hard to notice bug. I've calculated lenghth of the </br>
+  dictionary, instead of calculating the sum of all its values. </br>
+  Anyway, the problem is solved and I still have some room to optimise </br>
+  on memory. The runtime looks nice, I am, almost, in top 10% by runtime distribution. </br>
+  On the side note, I should work more with Python. There is no room for cheating, as</br>
+  the language is slow, so no bruteforce will get accepted. And the language is very </br>
+  fun and easy to use. There is less bolerplate, and it is almost painless to convert</br>
+  pseudocode into a working algorithm</br>
+  Submission details: https://leetcode.com/submissions/detail/221953044/</br>
+  
 * **[2019-03-30]** [Talles billboard](https://leetcode.com/problems/tallest-billboard/)</br>
   ~10 hours and more, three days,  and five approaches later,  finally, solved it only to be in the bottom 5% of efficiency!</br>
   And this is for topic that I somewhat already familiar with. </br>

@@ -38,7 +38,6 @@
 
 # The simplified formula is:
 # solution(X) = for every solution(X-1), either concatenate, if possible, or append
-import ipdb
 
 
 ## Possible optimization. Maintain dictionary with amounts of each entry instead of a flat list
@@ -60,16 +59,24 @@ class Solution(object):
     
     if not previousSolutions.keys()[0] in self.inputSet:
       return 0
+
+    previousSolutionsSum = 1
     
     for item in s[1:]:
       newPreviousSolutions = {}
-
+      newPreviousSolutionsSum = 0
       for solution,count in previousSolutions.iteritems():
-        sol = "".join([solution,item])
+        
+        sol = solution+item
         if sol in self.inputSet:
           newPreviousSolutions[sol] = count
+          newPreviousSolutionsSum += count
+          
       if item in self.inputSet:
-        newPreviousSolutions[item] = sum(previousSolutions.values())
+        newPreviousSolutions[item] = previousSolutionsSum
+        newPreviousSolutionsSum += previousSolutionsSum
+        
       previousSolutions = newPreviousSolutions
+      previousSolutionsSum = newPreviousSolutionsSum
       
-    return  sum(previousSolutions.values())
+    return  previousSolutionsSum
