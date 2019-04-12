@@ -55,20 +55,24 @@ class Solution(object):
     if len(s) == 0:
       return 0
     
-    previousSolutions = [s[0]]
-    if not previousSolutions[0] in self.inputSet:
+    previousSolutions = {s[0]:1}
+    if not previousSolutions.keys()[0] in self.inputSet:
       return 0
     
     for item in s[1:]:
-      newPreviousSolutions = []
-      for solution in previousSolutions:
+      newPreviousSolutions = {}
+      for solution,count in previousSolutions.iteritems():
         sol = "".join([solution,item])
         if sol in self.inputSet:
-          newPreviousSolutions.append(sol)
-        if item in self.inputSet:  
-          newPreviousSolutions.append(item)
+          if sol in newPreviousSolutions:
+            newPreviousSolutions[sol] += count
+          else:
+            newPreviousSolutions[sol] = count
+          
+      if item in self.inputSet:
+        newPreviousSolutions[item] = len(previousSolutions)
           
       previousSolutions = newPreviousSolutions
-      # print previousSolutions
+      print previousSolutions
     
-    return len(previousSolutions) # sum([item for item in previousSolutions.values()])
+    return  sum([item for item in previousSolutions.values()])
