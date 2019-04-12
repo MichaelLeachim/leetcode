@@ -29,7 +29,7 @@ go test -bench BenchmarkMinCameraCover
 
 </br>
 
-* **[2019-04-12]** 
+* **[2019-04-12]**  [Decode ways](https://leetcode.com/problems/decode-ways/submissions/)</br>
   Well, I am still have a long way to go for the larger company interview. Such problems are expected to </br>
   be solved in less than 45 minutes. It took me ~5 hours to make it work. </br>
   In the end, I've had a very silly but very hard to notice bug. I've calculated lenghth of the </br>
@@ -42,7 +42,7 @@ go test -bench BenchmarkMinCameraCover
   pseudocode into a working algorithm</br>
   Submission details: https://leetcode.com/submissions/detail/221953044/</br>
   
-* **[2019-03-30]** [Talles billboard](https://leetcode.com/problems/tallest-billboard/)</br>
+* **[2019-03-30]** [Tallest billboard](https://leetcode.com/problems/tallest-billboard/)</br>
   ~10 hours and more, three days,  and five approaches later,  finally, solved it only to be in the bottom 5% of efficiency!</br>
   And this is for topic that I somewhat already familiar with. </br>
   One year won't be enough for me to prepare for an interview. </br>
