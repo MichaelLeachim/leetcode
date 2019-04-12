@@ -38,6 +38,7 @@
 
 # The simplified formula is:
 # solution(X) = for every solution(X-1), either concatenate, if possible, or append
+import ipdb
 
 
 ## Possible optimization. Maintain dictionary with amounts of each entry instead of a flat list
@@ -46,7 +47,12 @@ class Solution(object):
   inputSet = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26"}
   def learningStuff(self):
     return self.inputSet
-  
+  def sumOrSet(self,dict,key,value):
+    if key in dict:
+      dict[key]+=value
+      return 
+    dict[key] = value  
+    
   def numDecodings(self, s):
     """
     :type s: str
@@ -64,15 +70,10 @@ class Solution(object):
       for solution,count in previousSolutions.iteritems():
         sol = "".join([solution,item])
         if sol in self.inputSet:
-          if sol in newPreviousSolutions:
-            newPreviousSolutions[sol] += count
-          else:
-            newPreviousSolutions[sol] = count
+          self.sumOrSet(newPreviousSolutions,sol,count)
           
       if item in self.inputSet:
-        newPreviousSolutions[item] = len(previousSolutions)
-          
+        self.sumOrSet(newPreviousSolutions,item,len(previousSolutions))
+        
       previousSolutions = newPreviousSolutions
-      print previousSolutions
-    
-    return  sum([item for item in previousSolutions.values()])
+    return  sum(previousSolutions.values())
