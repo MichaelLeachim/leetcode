@@ -46,17 +46,17 @@ class Solution(object):
     """
     if len(s) == 0:
       return 0
+    
     previousSolutions = {s[0]:1}
     if not previousSolutions.keys()[0] in self.inputSet:
       return 0
     
     for item in s[1:]:
-      
       newPreviousSolutions = {}
       for solution,count in previousSolutions.iteritems():
         sol = "".join([solution,item])
         if sol in self.inputSet:
-          newPreviousSolutions[sol] = 1
+          newPreviousSolutions[sol] = count
           
       if item in self.inputSet:  
         newPreviousSolutions[item] = len(previousSolutions)
