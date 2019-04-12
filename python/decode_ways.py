@@ -47,11 +47,6 @@ class Solution(object):
   inputSet = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26"}
   def learningStuff(self):
     return self.inputSet
-  def sumOrSet(self,dict,key,value):
-    if key in dict:
-      dict[key]+=value
-      return 
-    dict[key] = value  
     
   def numDecodings(self, s):
     """
@@ -62,18 +57,19 @@ class Solution(object):
       return 0
     
     previousSolutions = {s[0]:1}
+    
     if not previousSolutions.keys()[0] in self.inputSet:
       return 0
     
     for item in s[1:]:
       newPreviousSolutions = {}
+
       for solution,count in previousSolutions.iteritems():
         sol = "".join([solution,item])
         if sol in self.inputSet:
-          self.sumOrSet(newPreviousSolutions,sol,count)
-          
+          newPreviousSolutions[sol] = count
       if item in self.inputSet:
-        self.sumOrSet(newPreviousSolutions,item,len(previousSolutions))
-        
+        newPreviousSolutions[item] = sum(previousSolutions.values())
       previousSolutions = newPreviousSolutions
+      
     return  sum(previousSolutions.values())

@@ -42,9 +42,6 @@ def test_dict_list_invariant_of_solution():
     somethingDict[item] = 1
     
   assert len(something) == sum(somethingDict.values())
-  i = {"a":3}
-  Solution().sumOrSet(i,"a",5)
-  assert i == {"a":8}
 
 def test_dictionary_workage():
   printsol = {}
@@ -70,10 +67,8 @@ def test_num_decodings():
   assert Solution().numDecodings("") == 0
   
   assert Solution().numDecodings("1111111") == 21
+  assert Solution().numDecodings("9371597631128776948387197132267188677349946742344217846154932859125134924241649584251978418763151253") == 3981312
   
-  # assert Solution().numDecodings("9371597631128776948387197132267188677349946742344217846154932859125134924241649584251978418763151253") == 3981312
-  
-# def test_num_decodings_bench(benchmark):
-  
-#   benchmark(lambda: Solution().numDecodings("9371597631128776948387197132267188677349946742344217846154932859125134924241649584251978418763151253"))
+def test_num_decodings_bench(benchmark):
+  benchmark(lambda: Solution().numDecodings("9371597631128776948387197132267188677349946742344217846154932859125134924241649584251978418763151253"))
   
