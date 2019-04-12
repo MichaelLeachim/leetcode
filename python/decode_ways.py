@@ -29,8 +29,16 @@
 # solution("12") => "12","2"
 # solution("123") => "123","23", "3","3"
 
+# Or, in the form of dictionary
+# solution("1") => {"1":1}
+# solution("12") => {"12":1,"2":1}
+# solution("123") => {"123":1,"23":1,"3":2}
+# solution("1234") => {"1234":1,"234":1,"34":2}
+
+
 # The simplified formula is:
 # solution(X) = for every solution(X-1), either concatenate, if possible, or append
+
 
 ## Possible optimization. Maintain dictionary with amounts of each entry instead of a flat list
 
@@ -56,12 +64,13 @@ class Solution(object):
       for solution,count in previousSolutions.iteritems():
         sol = "".join([solution,item])
         if sol in self.inputSet:
-          newPreviousSolutions[sol] = count
+          newPreviousSolutions[sol] = count+1
           
       if item in self.inputSet:  
         newPreviousSolutions[item] = len(previousSolutions)
         
       previousSolutions = newPreviousSolutions
-      print previousSolutions  
+      # print previousSolutions
+      
     
     return sum([item for item in previousSolutions.values()])
