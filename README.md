@@ -29,6 +29,13 @@ go test -bench BenchmarkMinCameraCover
 
 </br>
 
+* **[2019-04-13]**  No leetcode
+  Separate problem, that has label hard. The task is to calculate the shortest sequence</br>
+  that produces fizzbuzz output. </br>
+  The task is not hard, it can be easily solved through bruteforce, given the tiny input </br>
+  Overall, the only problem is getting used to solving these problems faster. </br>
+  It took me several hours, but It should have taken no more than 50 minutes. </br>
+  
 * **[2019-04-12]**  [Decode ways](https://leetcode.com/problems/decode-ways/submissions/)</br>
   Well, I am still have a long way to go for the larger company interview. Such problems are expected to </br>
   be solved in less than 45 minutes. It took me ~5 hours to make it work. </br>
