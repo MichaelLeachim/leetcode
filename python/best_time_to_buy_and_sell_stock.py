@@ -44,23 +44,22 @@ class Solution(object):
             for index,item in enumerate(input)]
   
   def calculateBestForward(self,input):
-    result = [0]
-    
+    prev = 0
+    yield prev
     for index,item in enumerate(input[1:]):
       index = index+1
-      maxItem = max(item-el for el in input[:index])
-      maxPrev = result[index-1]
-      result.append(max(maxItem,maxPrev))
-    return result
-  
+      maxItem = max(item-input[el] for el in xrange(0,index))
+      prev = max(maxItem,prev)
+      yield prev
+      
   def calculateBestBackward(self,input):
-    result = [0]
+    prev = 0
+    yield prev
     for index in xrange(len(input)-2,-1,-1):
       item = input[index]
-      maxItem = max(el-item for el in input[index:])
-      maxPrev = result[0]
-      result.insert(0,max(maxItem,maxPrev))
-    return result
+      maxItem = max(input[el]-item for el in xrange(index,len(input)))
+      prev = max(maxItem,prev)
+      yield prev
   
   def maxProfit(self, prices):
     """
@@ -68,7 +67,7 @@ class Solution(object):
     :rtype: int
     """
     best = 0
-    for forward,backward in zip(self.calculateBestForward(prices),self.calculateBestBackward(prices)):
+    for forward,backward in zip(self.calculateBestForward(prices),reversed(list(self.calculateBestBackward(prices)))):
       if forward+backward > best:
         best = forward+backward
     return best      

@@ -34,11 +34,11 @@ def testMakeNiceDifferenceMatrix():
   assert mt[2][1] == None
   
 def testCalculateBestForwardAndBackward():
-  assert Solution().calculateBestForward([1, 3, 2, 4]) == [0,2,2,3]
-  assert Solution().calculateBestForward([3,3,5,0,0,3,1,4]) == [0, 0, 2, 2, 2, 3, 3, 4]
+  assert list(Solution().calculateBestForward([1, 3, 2, 4])) == [0,2,2,3]
+  assert list(Solution().calculateBestForward([3,3,5,0,0,3,1,4])) == [0, 0, 2, 2, 2, 3, 3, 4]
 
-  assert Solution().calculateBestBackward([1, 3, 2, 4]) == [3,2,2,0]
-  assert Solution().calculateBestBackward([3,3,5,0,0,3,1,4]) == [4,4,4,4,4,3,3,0]
+  assert list(reversed(list(Solution().calculateBestBackward([1, 3, 2, 4])))) == [3,2,2,0]
+  assert list(reversed(list(Solution().calculateBestBackward([3,3,5,0,0,3,1,4])))) == [4,4,4,4,4,3,3,0]
 
   
   
@@ -50,9 +50,9 @@ def testMaxProfit():
   assert Solution().maxProfit([]) == 0
   assert Solution().maxProfit([1]) == 0
   assert Solution().maxProfit([1,2]) == 1
-  # largeInput = range(10000,0)
-  # largeInput.extend(range(0,10000))
-  # assert Solution().maxProfit(largeInput) == 9999
+  largeInput = range(10000,0)
+  largeInput.extend(range(0,10000))
+  assert Solution().maxProfit(largeInput) == 9999
 
 def testCalculateBestForwardBench(benchmark):
   largeInput = range(1000,0)
