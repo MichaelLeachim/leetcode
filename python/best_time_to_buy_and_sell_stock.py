@@ -28,8 +28,8 @@
 ###### Input is: [1,3,2,4]
 ######   Solution(1)   =   = max(solution(),(1-1))
 ######   Solution(1,3)     = max(solution(1),3-1,3-3)
-######   Solution(1,3,2)   = max(solution(2),2-1,2-3,2-2)
-######   Solution(1,3,2,4) = max(solution(3),4-1,4-3,4-2,4-4)
+######   Solution(1,3,2)   = max(solution(1,3),2-1,2-3,2-2)
+######   Solution(1,3,2,4) = max(solution(1,3,2),4-1,4-3,4-2,4-4)
 
 #### Now, we should repeat this process backwards, to find the best solution on the right
 #    side of the input
@@ -37,6 +37,15 @@
 #    Solution(2,4) = max(solution(4),2-2,4-2)
 #    Solution(3,2,4) = max(solution(2,4),3-3,2-3,4-3)
 #    Solution(1,3,2,4) = max(solution(3,2,4),1-1,3-1,2-1,4-1)
+
+#### Now, how to optimize?
+# I don't like repeated subtractions. On large data size it will take a lot of time
+# We can infer subtractions by previous, like this:
+##   Solution(1)   =   = max(solution(),(1-1))
+##   Solution(1,3)     = max(solution(1),(1-1)+(3-1),3-3)
+##   Solution(1,3,2)   = max(solution(1,3),(1-1)+(3-1)+(2-3),(3-3)+(2-3),2-2)
+##   Solution(1,3,2,4) = e.t.c.
+## We take the maximum of the previous step and add delta (currentStep-previousStep) to it
 
 class Solution(object):
   def calculateMatrix(self,input):
