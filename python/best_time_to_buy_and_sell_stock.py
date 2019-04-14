@@ -45,7 +45,11 @@
 ##   Solution(1,3)     = max(solution(1),(1-1)+(3-1),3-3)
 ##   Solution(1,3,2)   = max(solution(1,3),(1-1)+(3-1)+(2-3),(3-3)+(2-3),2-2)
 ##   Solution(1,3,2,4) = e.t.c.
-## We take the maximum of the previous step and add delta (currentStep-previousStep) to it
+
+### No no no, there is an easier way
+##  If we find min from input for every step from left and right?
+##    [1,3,2,4] => [1,1,1,1]
+##  And then, we just subtract that minimum from every point
 
 class Solution(object):
   def calculateMatrix(self,input):
@@ -53,21 +57,33 @@ class Solution(object):
             for index,item in enumerate(input)]
   
   def calculateBestForward(self,input):
-    prev = 0
+    prev     = 0
     yield prev
+    
+    if len(input) == 0:
+      return
+    minimum  = input[0]
+    
     for index,item in enumerate(input[1:]):
       index = index+1
-      maxItem = max(item-input[el] for el in xrange(0,index))
-      prev = max(maxItem,prev)
+      prev = max(item-minimum,prev)
+      if minimum > item:
+        minimum = item
       yield prev
       
   def calculateBestBackward(self,input):
     prev = 0
     yield prev
+
+    if len(input) == 0:
+      return
+    maximum  = input[len(input)-1]
+    
     for index in xrange(len(input)-2,-1,-1):
       item = input[index]
-      maxItem = max(input[el]-item for el in xrange(index,len(input)))
-      prev = max(maxItem,prev)
+      prev = max(maximum-item,prev)
+      if item > maximum:
+        maximum = item
       yield prev
   
   def maxProfit(self, prices):
