@@ -56,13 +56,17 @@ class Restaurant():
     preparedSolution = sorted(result.values(),key=lambda x: dayOrder[x[0][0]])
     return preparedSolution
   
-  def get_opening_hours(self):
+  def getOpeningHours(self):
     s = self.opening_hours
     if len(s) == 0:
       return ""
     s1 = self.mergeConsequentItems(s)
     s2 = self.mergeNonConsequentItems(s1)
     ipdb.set_trace()
+    
+    s3 = ", ".join([", ".join([firstDay + ": " + hours if firstDay == lastDay else firstDay + " - " + lastDay + ": " + hours for [firstDay,lastDay,hours] in point]) for point in s2])
+    return s3
+    
     # solution = {hours:[first,last,hours]}
     # for day,hours in s[1:]:
     #   lastInSolution = len(solution)-1
@@ -72,8 +76,10 @@ class Restaurant():
     #     continue
     #   solution[hours] = [day,day,hours]
     # preparedSolution = sorted(solution.values(),key=lambda x: dayOrder[x[0]])
-    
     return ", ".join([firstDay + ": " + hours if firstDay == lastDay else firstDay + " - " + lastDay + ": " + hours for [firstDay,lastDay,hours] in preparedSolution])
+  
+  def get_opening_hours(self):
+    return self.getOpeningHours()
   
 class OpeningHour():
   def __init__(self, opening_hour, closing_hour):
