@@ -13,6 +13,10 @@ import ipdb
 # Then, merge previous item with current item
 # Otherwise add them to array.
 
+# First run, merge all items that are consequently mergeable
+# Second run, from those merged, combine those which has the same time
+
+
 class Restaurant():
   WEEKDAYS = [
    'Sun',
@@ -29,24 +33,46 @@ class Restaurant():
     self.opening_hours = zip(
         self.WEEKDAYS,
         [opening_hour.to_string() for opening_hour in opening_hours])
-  def get_opening_hours(self):
-    dayOrder = dict(zip(self.WEEKDAYS,range(0,7)))
     
+  def mergeConsequentItems(self,s):
+    first,last,hours = s[0][0],s[0][0],s[0][1]
+    solution = [[first,last,hours]]
+    for day,hours in s[1:]:
+      lastInSolution = len(solution)-1
+      (prevDayFirst,prevDayLast, prevHours) = solution[lastInSolution]
+      if prevHours == hours:
+        solution[lastInSolution] = (prevDayFirst,day,hours)
+        continue
+      solution.append([day,day,hours])
+    return solution
+  
+  def mergeNonConsequentItems(self,consequentSolution):
+    dayOrder = dict(zip(self.WEEKDAYS,range(0,7)))
+    result = {}
+    for firstDay,lastDay,hours in consequentSolution:
+      if hours in result:
+        result[hours].append([firstDay,lastDay,hours])
+      result[hours] = [[firstDay,lastDay,hours]]
+    preparedSolution = sorted(result.values(),key=lambda x: dayOrder[x[0][0]])
+    return preparedSolution
+  
+  def get_opening_hours(self):
     s = self.opening_hours
     if len(s) == 0:
       return ""
-    
-    first,last,hours = s[0][0],s[0][0],s[0][1]
-    solution = {hours:[first,last,hours]}
-    for day,hours in s[1:]:
-      lastInSolution = len(solution)-1
-      if hours in solution:
-        (prevDayFirst,prevDayLast, prevHours) = solution[hours]
-        solution[hours] = [prevDayFirst,day, hours]
-        continue
-      solution[hours] = [day,day,hours]
+    s = self.mergeConsequentItems(s)
+    s = self.mergeNonConsequentItems(s)
+    ipdb.set_trace()
+    # solution = {hours:[first,last,hours]}
+    # for day,hours in s[1:]:
+    #   lastInSolution = len(solution)-1
+    #   if hours in solution:
+    #     (prevDayFirst,prevDayLast, prevHours) = solution[hours]
+    #     solution[hours] = [prevDayFirst,day, hours]
+    #     continue
+    #   solution[hours] = [day,day,hours]
       
-    preparedSolution = sorted(solution.values(),key=lambda x: dayOrder[x[0]])
+    # preparedSolution = sorted(solution.values(),key=lambda x: dayOrder[x[0]])
     
     return ", ".join([firstDay + ": " + hours if firstDay == lastDay else firstDay + " - " + lastDay + ": " + hours for [firstDay,lastDay,hours] in preparedSolution])
   
