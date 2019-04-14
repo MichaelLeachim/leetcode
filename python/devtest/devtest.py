@@ -30,23 +30,26 @@ class Restaurant():
         self.WEEKDAYS,
         [opening_hour.to_string() for opening_hour in opening_hours])
   def get_opening_hours(self):
+    dayOrder = dict(zip(self.WEEKDAYS,range(0,7)))
     
     s = self.opening_hours
     if len(s) == 0:
       return ""
     
     first,last,hours = s[0][0],s[0][0],s[0][1]
-    solution = [[first,last,hours]]
-    
+    solution = {hours:[first,last,hours]}
     for day,hours in s[1:]:
       lastInSolution = len(solution)-1
-      (prevDayFirst,prevDayLast, prevHours) = solution[lastInSolution]
-      
-      if prevHours == hours:
-        solution[lastInSolution] = [prevDayFirst,day, hours]
+      if hours in solution:
+        (prevDayFirst,prevDayLast, prevHours) = solution[hours]
+        solution[hours] = [prevDayFirst,day, hours]
         continue
-      solution.append([day,day,hours])
-    return ", ".join([firstDay + ": " + hours if firstDay == lastDay else firstDay + " - " + lastDay + ": " + hours for [firstDay,lastDay,hours] in solution])
+      solution[hours] = [day,day,hours]
+      
+    preparedSolution = sorted(solution.values(),key=lambda x: dayOrder[x[0]])
+    
+    return ", ".join([firstDay + ": " + hours if firstDay == lastDay else firstDay + " - " + lastDay + ": " + hours for [firstDay,lastDay,hours] in preparedSolution])
+  
 class OpeningHour():
   def __init__(self, opening_hour, closing_hour):
     self.opening_hour = opening_hour
