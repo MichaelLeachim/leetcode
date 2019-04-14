@@ -39,6 +39,21 @@ class RestaurantTestCase(unittest.TestCase):
       "Sun - Wed: 8-16, Thu: 8-20, Fri: 8-21, Sat: 8-22",
       restaurant.get_opening_hours())
     
+  def test_merge_test(self):
+    restaurant = Restaurant(
+      OpeningHour(8, 15),  # Sunday
+      OpeningHour(8, 16),  # Monday
+      OpeningHour(8, 16),  # Tuesday
+      OpeningHour(8, 16),  # Wednesday
+      OpeningHour(8, 16),  # Thursday
+      OpeningHour(8, 16),  # Friday
+      OpeningHour(8, 15),  # Saturday
+    )
+    mci = restaurant.mergeConsequentItems(restaurant.opening_hours)
+    self.assertListEqual(mci,[['Sun', 'Sun', '8-15'], ['Mon', 'Fri', '8-16'], ['Sat', 'Sat', '8-15']])
+    mnc = restaurant.mergeNonConsequentItems(mci)
+    self.assertListEqual(mnc,[[['Sun', 'Sun', '8-15'], ['Sat', 'Sat', '8-15']], [['Mon', 'Fri', '8-16']]])
+    
   def test_multiple_groups(self):
       restaurant = Restaurant(
           OpeningHour(8, 16),  # Sunday
