@@ -41,14 +41,14 @@ go test -bench BenchmarkMinCameraCover
   I am still not in the top solutions, but I've managed to pass it all, so here is that</br>
   Submission details: https://leetcode.com/submissions/detail/222333012/</br>
   
-* **[2019-04-14]** No leetcode
+* **[2019-04-14]** No leetcode </br>
   A job interview problem. I would classify it as an easy->trivial problem. But it had several nuances </br>
   that I overlooked when started working on it. That is why it took me so long to solve it.</br>
   Overeall, it took me 75/120 minutes to solve all edge cases.</br>
   Let's hope that they accept my solution and I will continue </br>
   to the next interview round</br>
   
-* **[2019-04-13]**  No leetcode
+* **[2019-04-13]**  No leetcode </br>
   Separate problem, that has label hard. The task is to calculate the shortest sequence</br>
   that produces fizzbuzz output. </br>
   The task is not hard, it can be easily solved through bruteforce, given the tiny input </br>
