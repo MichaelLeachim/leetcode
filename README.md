@@ -29,6 +29,17 @@ go test -bench BenchmarkMinCameraCover
 
 </br>
 
+* **[2019-04-14]**  [Best time to buy and sell stock III](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/)</br>
+  I like Python a lot. I can work out a problem a lot faster</br>
+  When I have to spend a lot of time writing any solution in Go, </br>
+  I spend way less time creating the same solution in Python. </br>
+  Optimizing and reading solution is also a lot easier with this language</br>
+  And I am feeling more fun when working with it </br>
+  I guess, I should try to get a job in Python because it seems there are a lot </br>
+  of companies who use this language</br>
+  Overall, I am getting a handle on it. It took me ~3 hours to solve this hard problem</br>
+  I am still not in the top solutions, but I've managed to pass it all, so here is that</br>
+  Submission details: https://leetcode.com/submissions/detail/222333012/</br>
 * **[2019-04-13]**  No leetcode
   Separate problem, that has label hard. The task is to calculate the shortest sequence</br>
   that produces fizzbuzz output. </br>

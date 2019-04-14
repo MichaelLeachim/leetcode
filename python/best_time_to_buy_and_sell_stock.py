@@ -78,14 +78,13 @@ class Solution(object):
     if len(input) == 0:
       return
     maximum  = input[len(input)-1]
-    
     for index in xrange(len(input)-2,-1,-1):
       item = input[index]
       prev = max(maximum-item,prev)
       if item > maximum:
         maximum = item
       yield prev
-  
+      
   def maxProfit(self, prices):
     """
     :type prices: List[int]
