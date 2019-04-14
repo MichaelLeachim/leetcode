@@ -30,26 +30,23 @@ class Restaurant():
         self.WEEKDAYS,
         [opening_hour.to_string() for opening_hour in opening_hours])
   def get_opening_hours(self):
-    # ipdb.set_trace()
+    
     s = self.opening_hours
-    solution = s[0]
+    if len(s) == 0:
+      return ""
     
-    for index, [day,hours] in enumerate(s[1:]):
-      index = index+1
-      [prevday, prevhours] = solution[index-1]
-      if prevhours == hours:
-        prevday = prevday + " - " + day
-        solution[index-1] = [prevday,hours]
+    first,last,hours = s[0][0],s[0][0],s[0][1]
+    solution = [[first,last,hours]]
+    
+    for day,hours in s[1:]:
+      lastInSolution = len(solution)-1
+      (prevDayFirst,prevDayLast, prevHours) = solution[lastInSolution]
+      
+      if prevHours == hours:
+        solution[lastInSolution] = [prevDayFirst,day, hours]
         continue
-      solution.append(day,hours)
-          
-    
-    
-
-    
-    
-    return ""
-  
+      solution.append([day,day,hours])
+    return ", ".join([firstDay + ": " + hours if firstDay == lastDay else firstDay + " - " + lastDay + ": " + hours for [firstDay,lastDay,hours] in solution])
 class OpeningHour():
   def __init__(self, opening_hour, closing_hour):
     self.opening_hour = opening_hour
