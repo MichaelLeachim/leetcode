@@ -28,7 +28,9 @@ go test -bench BenchmarkMinCameraCover
 ```
 
 </br>
-* **[2019-04-14]** **TODO: solve some SQL problems**
+
+* **[2019-04-14]**  </br>
+  **TODO: solve some SQL problems**</br>
 
 * **[2019-04-14]**  [Best time to buy and sell stock III](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/)</br>
   I like Python a lot. I can work out a problem a lot faster</br>
