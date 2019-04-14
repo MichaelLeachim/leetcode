@@ -4,8 +4,8 @@
 # @ You must not remove this notice, or any other, from this software.                 @
 # @ All rights reserved.                                                               @
 # @@@@@@ At 2019-04-14 08:19 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
+
 from collections import OrderedDict
-import ipdb
 
 # Okay, how to solve it?
 
@@ -15,7 +15,14 @@ import ipdb
 
 # First run, merge all items that are consequently mergeable
 # Second run, from those merged, combine those which has the same time
+# Third run, format it according to the rules
 
+# TBH, I would make it more optimal, but I have a time limit,
+# and I am a bit nervous
+# I am using basic string concatenation here, because the input is small and this is non critical
+# On a larger strings, should use "".join([]) because it is faster
+# I am pretty sure that there is no point in dayOrder ordering, but figuring it all
+# out will take time
 
 class Restaurant():
   WEEKDAYS = [
@@ -34,6 +41,7 @@ class Restaurant():
         self.WEEKDAYS,
         [opening_hour.to_string() for opening_hour in opening_hours])
     
+  # Will merge consequent items in the input
   def mergeConsequentItems(self,s):
     first,last,hours = s[0][0],s[0][0],s[0][1]
     solution = [[first,last,hours]]
@@ -46,6 +54,7 @@ class Restaurant():
       solution.append([day,day,hours])
     return solution
   
+  # Will merge non consequent items based on consequent items
   def mergeNonConsequentItems(self,consequentSolution):
     dayOrder = dict(zip(self.WEEKDAYS,range(0,7)))
     result = {}
@@ -61,28 +70,23 @@ class Restaurant():
     s = self.opening_hours
     if len(s) == 0:
       return ""
+    
     s1 = self.mergeConsequentItems(s)
     s2 = self.mergeNonConsequentItems(s1)
-    # ipdb.set_trace()
     
+    ## 1. First, combine the leaf nodes, if they are the same, otherwise, combine them through the "-"
+    ## 2. Then, join every combination with the "," symbol and append time at the end of it
+    result = []
     for item in s2:
-      if len(item)
-      
-      
-    
-    s3 = ", ".join([", ".join([firstDay + ": " + hours if firstDay == lastDay else firstDay + " - " + lastDay + ": " + hours for [firstDay,lastDay,hours] in point]) for point in s2])
-    return s3
-    
-    # solution = {hours:[first,last,hours]}
-    # for day,hours in s[1:]:
-    #   lastInSolution = len(solution)-1
-    #   if hours in solution:
-    #     (prevDayFirst,prevDayLast, prevHours) = solution[hours]
-    #     solution[hours] = [prevDayFirst,day, hours]
-    #     continue
-    #   solution[hours] = [day,day,hours]
-    # preparedSolution = sorted(solution.values(),key=lambda x: dayOrder[x[0]])
-    return ", ".join([firstDay + ": " + hours if firstDay == lastDay else firstDay + " - " + lastDay + ": " + hours for [firstDay,lastDay,hours] in preparedSolution])
+      cmb = []
+      hours = item[0][2]
+      for firstDay,lastDay,hours in item:
+        if firstDay == lastDay:
+          cmb.append(firstDay)
+          continue
+        cmb.append(firstDay+" - "+lastDay)
+      result.append(", ".join(cmb) + ": " + hours)
+    return ", ".join(result)
   
   def get_opening_hours(self):
     return self.getOpeningHours()
