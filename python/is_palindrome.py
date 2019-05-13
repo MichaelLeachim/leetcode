@@ -18,6 +18,3 @@ class Palindrome:
       if word[right] != word[left]:
         return False
     return is_palindrome
-  
-# word = input()
-# print(Palindrome.is_palindrome(word))
